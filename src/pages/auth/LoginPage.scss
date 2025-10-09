@@ -1,0 +1,419 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+
+  // Language Selector Positioning
+  &__language-selector {
+    position: absolute;
+    top: $spacing-lg;
+    right: $spacing-lg;
+    z-index: $z-index-sticky;
+
+    @include mobile-first($breakpoint-md) {
+      top: $spacing-md;
+      right: $spacing-md;
+    }
+  }
+
+  // Left Panel - Welcome Section with Food Background
+  &__left-panel {
+    flex: 1;
+    background: 
+      // linear-gradient(135deg, rgba(1, 168, 99, 0.85) 0%, rgba(0, 139, 60, 0.85) 100%),
+      url('https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80') center/cover no-repeat;
+    @include flex-center;
+    position: relative;
+    
+    // Add overlay for better text readability
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(1, 168, 99, 0.7) 0%, rgba(0, 139, 60, 0.7) 100%);
+      z-index: 1;
+    }
+    
+    // Add subtle pattern overlay
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      // background: 
+        // radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        // radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+      background-size: 300px 300px, 500px 500px;
+      z-index: 2;
+    }
+  }
+
+  &__left-content {
+    @include flex-column-center;
+    gap: $spacing-xl;
+    text-align: center;
+    color: white;
+    z-index: 3;
+    position: relative;
+    max-width: 400px;
+    padding: $spacing-xl;
+  }
+
+  &__logo {
+    @include flex-column-center;
+    gap: $spacing-lg;
+
+    &-icon {
+      svg {
+        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+      }
+    }
+
+    &-text {
+      font-size: $font-size-3xl;
+      font-weight: $font-weight-semibold;
+      letter-spacing: 0.5px;
+    }
+  }
+
+  &__welcome {
+    @include flex-column;
+    gap: $spacing-lg;
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: $font-weight-bold;
+      margin: 0;
+      line-height: 1.2;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    p {
+      font-size: $font-size-lg;
+      margin: 0;
+      opacity: 0.9;
+      line-height: 1.6;
+      max-width: 300px;
+    }
+  }
+
+  &__switch-btn {
+    background: transparent !important;
+    border: 2px solid white !important;
+    color: white !important;
+    padding: $spacing-md $spacing-2xl !important;
+    border-radius: 25px !important;
+    font-weight: $font-weight-semibold !important;
+    letter-spacing: 1px !important;
+    transition: all $transition-normal !important;
+    min-width: 140px;
+
+    &:hover {
+      background: white !important;
+      color: var(--color-sidebar-background) !important;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+    }
+  }
+
+  // Right Panel - White Form Section
+  &__right-panel {
+    flex: 1;
+    background: white;
+    @include flex-center;
+    position: relative;
+  }
+
+  &__right-content {
+    @include flex-column;
+    gap: $spacing-2xl;
+    width: 100%;
+    max-width: 400px;
+    padding: $spacing-xl;
+  }
+
+  &__form-header {
+    text-align: center;
+    @include flex-column;
+    gap: $spacing-md;
+
+    h2 {
+      font-size: 2rem;
+      font-weight: $font-weight-bold;
+      margin: 0;
+      color: #333;
+    }
+
+    p {
+      font-size: $font-size-base;
+      margin: 0;
+      color: #666;
+    }
+  }
+
+  // Loading state
+  &__loading {
+    @include flex-center;
+    min-height: 100vh;
+    background: 
+      // linear-gradient(135deg, rgba(1, 168, 99, 0.85) 0%, rgba(0, 139, 60, 0.85) 100%),
+      url('https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80') center/cover no-repeat;
+    color: white;
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(1, 168, 99, 0.7) 0%, rgba(0, 139, 60, 0.7) 100%);
+      z-index: 1;
+    }
+
+    .loading-spinner {
+      z-index: 2;
+      position: relative;
+    }
+  }
+}
+
+.auth-form {
+  @include flex-column;
+  gap: $spacing-xl;
+  width: 100%;
+
+  &__error {
+    padding: $spacing-md $spacing-lg;
+    background-color: rgba(239, 68, 68, 0.1);
+    border: 1px solid var(--color-error);
+    border-radius: $border-radius-md;
+    color: var(--color-error);
+    font-size: $font-size-sm;
+    text-align: center;
+    animation: shake 0.5s ease-in-out;
+  }
+
+  &__fields {
+    @include flex-column;
+    gap: $spacing-lg;
+  }
+
+  &__input {
+    .input {
+      border: none;
+      border-bottom: 2px solid #e0e0e0;
+      border-radius: 0;
+      background: transparent;
+      padding: $spacing-md 0;
+      font-size: $font-size-base;
+      transition: border-color $transition-normal;
+
+      &:focus {
+        border-bottom-color: var(--color-primary);
+        box-shadow: none;
+      }
+
+      &::placeholder {
+        color: #999;
+        font-weight: $font-weight-normal;
+      }
+    }
+
+    .input__label {
+      display: none;
+    }
+  }
+
+  &__options {
+    @include flex-between;
+    align-items: center;
+    gap: $spacing-md;
+    margin: $spacing-lg 0;
+
+    @include mobile-first($breakpoint-sm) {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: $spacing-sm;
+    }
+  }
+
+  &__checkbox {
+    @include flex-start;
+    gap: $spacing-sm;
+    cursor: pointer;
+    user-select: none;
+    font-size: $font-size-sm;
+    color: #666;
+
+    input[type="checkbox"] {
+      display: none;
+    }
+
+    &-mark {
+      width: 18px;
+      height: 18px;
+      border: 2px solid #ddd;
+      border-radius: $border-radius-sm;
+      position: relative;
+      transition: all $transition-fast;
+      flex-shrink: 0;
+
+      &::after {
+        content: '✓';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0);
+        color: white;
+        font-size: 12px;
+        font-weight: bold;
+        transition: transform $transition-fast;
+      }
+    }
+
+    input[type="checkbox"]:checked + &-mark {
+      background-color: var(--color-primary);
+      border-color: var(--color-primary);
+
+      &::after {
+        transform: translate(-50%, -50%) scale(1);
+      }
+    }
+
+    &:hover &-mark {
+      border-color: var(--color-primary);
+    }
+
+    &-text {
+      font-size: $font-size-sm;
+      color: #666;
+    }
+  }
+
+  &__forgot-password {
+    color: var(--color-primary);
+    font-size: $font-size-sm;
+    text-decoration: none;
+    transition: color $transition-fast;
+
+    &:hover {
+      color: var(--color-primary-dark);
+      text-decoration: underline;
+    }
+  }
+
+  &__submit {
+    background: linear-gradient(135deg, var(--color-sidebar-background) 0%, var(--color-primary-dark) 100%) !important;
+    border: none !important;
+    border-radius: 25px !important;
+    padding: $spacing-lg $spacing-2xl !important;
+    font-weight: $font-weight-semibold !important;
+    letter-spacing: 1px !important;
+    font-size: $font-size-base !important;
+    color: white !important;
+    margin-top: $spacing-lg;
+    transition: all $transition-normal !important;
+    box-shadow: 0 4px 15px rgba(1, 168, 99, 0.3);
+
+    &:hover {
+      transform: translateY(-2px) !important;
+      box-shadow: 0 8px 25px rgba(1, 168, 99, 0.4) !important;
+    }
+
+    &:active {
+      transform: translateY(0) !important;
+    }
+  }
+}
+
+// Animations
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+// Responsive Design
+@include mobile-first($breakpoint-lg) {
+  .auth-page {
+    flex-direction: column;
+
+    &__left-panel {
+      min-height: 40vh;
+    }
+
+    &__left-content {
+      padding: $spacing-lg;
+      gap: $spacing-xl;
+
+      h1 {
+        font-size: 2rem;
+      }
+    }
+
+    &__right-panel {
+      min-height: 60vh;
+    }
+
+    &__right-content {
+      padding: $spacing-lg;
+      max-width: 100%;
+    }
+  }
+}
+
+@include mobile-first($breakpoint-md) {
+  .auth-page {
+    &__left-content {
+      padding: $spacing-md;
+      gap: $spacing-lg;
+
+      h1 {
+        font-size: 1.75rem;
+      }
+
+      p {
+        font-size: $font-size-base;
+      }
+    }
+
+    &__right-content {
+      padding: $spacing-md;
+    }
+  }
+}
+
+@include mobile-first($breakpoint-sm) {
+  .auth-page {
+    &__left-content {
+      gap: $spacing-md;
+
+      h1 {
+        font-size: 1.5rem;
+      }
+    }
+
+    &__form-header {
+      h2 {
+        font-size: 1.5rem;
+      }
+    }
+  }
+}

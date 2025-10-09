@@ -1,0 +1,36 @@
+services:
+  fastrtc-frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fastrtc-frontend
+    network_mode: "host"
+    environment:
+      - NODE_ENV=production
+    env_file:
+      - .env
+    restart: unless-stopped
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "wget",
+          "--no-verbose",
+          "--tries=1",
+          "--spider",
+          "http://localhost:7864/",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    labels:
+      - "com.fastrtc.service=frontend"
+      - "com.fastrtc.description=FastRTC Detection Studio Frontend"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+# Using host networking to access remote backend at 192.168.1.99:7860
+# Frontend will be available at http://localhost:7864

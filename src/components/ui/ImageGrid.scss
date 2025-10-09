@@ -1,0 +1,202 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.image-grid {
+  width: 100%;
+  
+  &__container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: $spacing-lg;
+    padding: $spacing-lg 0;
+    
+    @include mobile-first($breakpoint-md) {
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: $spacing-md;
+    }
+    
+    @include mobile-first($breakpoint-sm) {
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: $spacing-sm;
+    }
+  }
+  
+  &__item {
+    background: var(--color-background-card);
+    border-radius: $border-radius-lg;
+    overflow: hidden;
+    box-shadow: $shadow-sm;
+    transition: all $transition-fast;
+    cursor: pointer;
+    border: 2px solid transparent;
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: $shadow-md;
+      border-color: var(--color-primary);
+    }
+    
+    &.selected {
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+    }
+  }
+  
+  &__image-container {
+    position: relative;
+    width: 100%;
+    height: 150px;
+    overflow: hidden;
+    background: var(--color-background-secondary);
+    
+    @include mobile-first($breakpoint-sm) {
+      height: 120px;
+    }
+  }
+  
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform $transition-fast;
+    
+    .image-grid__item:hover & {
+      transform: scale(1.05);
+    }
+  }
+  
+  &__checkbox {
+    position: absolute;
+    top: $spacing-xs;
+    left: $spacing-xs;
+    z-index: 2;
+    
+    input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--color-primary);
+      cursor: pointer;
+    }
+  }
+  
+  &__annotations {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+  }
+  
+  &__annotation {
+    position: absolute;
+    border: 2px solid;
+    border-radius: 2px;
+    background: transparent;
+  }
+  
+  &__info {
+    padding: $spacing-sm;
+  }
+  
+  &__filename {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: var(--color-text-primary);
+    margin-bottom: $spacing-xs;
+    word-break: break-all;
+    line-height: 1.3;
+  }
+  
+  &__details {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  
+  &__uuid {
+    font-size: $font-size-xs;
+    color: var(--color-text-secondary);
+    font-family: monospace;
+  }
+  
+  &__date {
+    font-size: $font-size-xs;
+    color: var(--color-text-secondary);
+    font-weight: $font-weight-medium;
+  }
+  
+  &__time {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    padding: 2px 6px;
+    border-radius: 4px;
+    display: inline-block;
+    width: fit-content;
+    
+    &.morning {
+      background: #fef3c7;
+      color: #92400e;
+    }
+    
+    &.evening {
+      background: #EBF2FE;
+      color: #00B75A;
+    }
+  }
+  
+  &__selection-bar {
+    position: fixed;
+    bottom: $spacing-xl;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-background-card);
+    border: 1px solid var(--color-border);
+    border-radius: $border-radius-lg;
+    padding: $spacing-md $spacing-lg;
+    box-shadow: $shadow-lg;
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    z-index: 1000;
+    
+    span {
+      font-weight: $font-weight-medium;
+      color: var(--color-text-primary);
+    }
+  }
+  
+  &__clear-selection {
+    background: var(--color-error);
+    color: white;
+    border: none;
+    border-radius: $border-radius-sm;
+    padding: $spacing-xs $spacing-sm;
+    font-size: $font-size-sm;
+    cursor: pointer;
+    transition: background $transition-fast;
+    
+    &:hover {
+      background: var(--color-error-dark);
+    }
+  }
+}
+
+// Responsive adjustments
+@include mobile-first($breakpoint-sm) {
+  .image-grid {
+    &__filename {
+      font-size: $font-size-xs;
+    }
+    
+    &__uuid,
+    &__date {
+      font-size: 10px;
+    }
+    
+    &__time {
+      font-size: 10px;
+      padding: 1px 4px;
+    }
+  }
+}

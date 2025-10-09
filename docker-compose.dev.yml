@@ -1,0 +1,20 @@
+# Development docker-compose (faster, with hot reload)
+services:
+  fastrtc-frontend-dev:
+    image: node:20-alpine
+    container_name: fastrtc-frontend-dev
+    working_dir: /app
+    volumes:
+      - .:/app
+      - /app/node_modules # Prevent overwriting node_modules
+    ports:
+      - "7864:5173" # Vite dev server default port
+    environment:
+      - NODE_ENV=development
+    command: sh -c "npm install --legacy-peer-deps && npm run dev -- --host 0.0.0.0"
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"

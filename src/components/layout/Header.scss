@@ -1,0 +1,398 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.header {
+  grid-area: header;
+  @include flex-between;
+  align-items: center;
+  padding: $spacing-md $spacing-xl;
+  background-color: var(--color-header-background);
+  border: none;
+  border-bottom: 1px solid var(--color-header-border);
+  box-shadow: $shadow-sm;
+  z-index: $z-index-sticky;
+  position: relative;
+  margin: 10px 20px 0;
+  border-radius: 20px;
+  height: 75px;
+  // height: 60px;
+
+  @include mobile-first($breakpoint-lg) {
+    padding: 0 $spacing-lg;
+  }
+
+  @include mobile-first($breakpoint-md) {
+    padding: 0 $spacing-md;
+  }
+
+  &__left {
+    @include flex-start;
+    gap: $spacing-lg;
+    flex: 1;
+  }
+
+  &__right {
+    @include flex-end;
+    gap: $spacing-sm;
+  }
+
+  &__menu-toggle {
+    @include mobile-first($breakpoint-lg) {
+      display: flex;
+    }
+    
+    @include responsive(lg) {
+      display: flex;
+    }
+  }
+
+  &__search {
+    flex: 1;
+    max-width: 400px;
+
+    @include mobile-first($breakpoint-md) {
+      display: none;
+    }
+
+    &-input {
+      .input-field__input {
+        // background-color: var(--color-background-secondary);
+        // border: 1px solid transparent;
+        background-color: var(--color-sidebar-background);
+        border: 1px solid var(--color-sidebar-background);
+        border-radius: $border-radius-xl;
+
+        &:focus {
+          background-color: var(--color-background-card);
+          border-color: var(--color-primary);
+        }
+      }
+    }
+  }
+
+  // Dropdown styles
+  &__dropdown {
+    position: relative;
+
+    &-menu {
+      position: absolute;
+      top: calc(100% + #{$spacing-sm});
+      right: 0;
+      min-width: 200px;
+      background-color: var(--color-background-card);
+      border: none;
+      border: 1px solid var(--color-border);
+      border-radius: $border-radius-xl;
+      box-shadow: $shadow-lg;
+      z-index: $z-index-dropdown;
+      padding: $spacing-lg;
+      animation: slideInDown $transition-fast;
+
+
+
+      &--wide {
+        min-width: 320px;
+        max-width: 400px;
+      }
+    }
+
+    &-item {
+      @include flex-start;
+      gap: $spacing-md;
+      width: 100%;
+      padding: $spacing-md $spacing-lg;
+      background-color: transparent;
+      border: 1px solid transparent;
+      border-radius: $border-radius-lg;
+      color: var(--color-text-primary);
+      font-size: $font-size-sm;
+      cursor: pointer;
+      transition: all $transition-fast;
+      margin-bottom: $spacing-xs;
+
+      &:hover {
+        background-color: var(--color-background-secondary);
+        border-color: var(--color-primary);
+      }
+
+      &:active {
+        background-color: var(--color-background-tertiary);
+      }
+
+      &--active {
+        background-color: var(--color-primary-50);
+        color: var(--color-primary);
+        border-color: var(--color-primary);
+      }
+
+      &--danger {
+        color: var(--color-error);
+
+        &:hover {
+          background-color: rgba(239, 68, 68, 0.1);
+          border-color: var(--color-error);
+        }
+      }
+    }
+
+    &-divider {
+      height: 1px;
+      background-color: var(--color-border);
+      margin: $spacing-sm 0;
+    }
+  }
+
+  // Language selector
+  &__language {
+    &-toggle {
+      .btn__text {
+        @include flex-start;
+        gap: $spacing-xs;
+      }
+    }
+
+    &-flag {
+      font-size: $font-size-base;
+      line-height: 1;
+    }
+  }
+
+  // Theme toggle
+  &__theme-toggle {
+    .btn__icon {
+      transition: transform $transition-fast;
+    }
+
+    &:hover .btn__icon {
+      transform: rotate(15deg);
+    }
+  }
+
+  // Notifications
+  &__notifications {
+    position: relative;
+
+    &-badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      background-color: var(--color-error);
+      color: white;
+      font-size: 10px;
+      font-weight: $font-weight-bold;
+      padding: 2px 6px;
+      border-radius: $border-radius-full;
+      min-width: 18px;
+      height: 18px;
+      @include flex-center;
+      animation: pulse 2s infinite;
+    }
+
+    &-header {
+      @include flex-between;
+      align-items: center;
+      padding: $spacing-md $spacing-lg;
+      border-bottom: 1px solid var(--color-border);
+      margin-bottom: $spacing-sm;
+
+      h4 {
+        @include text-heading(sm);
+        margin: 0;
+      }
+    }
+
+    &-clear {
+      color: var(--color-primary);
+      background: none;
+      border: none;
+      font-size: $font-size-xs;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    &-list {
+      max-height: 300px;
+      overflow-y: auto;
+      @include scrollbar;
+    }
+
+    &-empty {
+      padding: $spacing-xl;
+      text-align: center;
+      color: var(--color-text-tertiary);
+      font-size: $font-size-sm;
+    }
+
+    &-footer {
+      border-top: 1px solid var(--color-border);
+      padding: $spacing-sm;
+      text-align: center;
+    }
+
+    &-view-all {
+      color: var(--color-primary);
+      background: none;
+      border: none;
+      font-size: $font-size-sm;
+      cursor: pointer;
+      padding: $spacing-sm;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  &__notification-item {
+    padding: $spacing-md $spacing-lg;
+    border-bottom: 1px solid var(--color-border-light);
+    cursor: pointer;
+    transition: background-color $transition-fast;
+
+    &:hover {
+      background-color: var(--color-background-secondary);
+    }
+
+    &--unread {
+      background-color: var(--color-primary-50);
+      border-left: 3px solid var(--color-primary);
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  &__notification {
+    &-content {
+      @include flex-column;
+      gap: $spacing-xs;
+    }
+
+    &-title {
+      font-weight: $font-weight-medium;
+      font-size: $font-size-sm;
+      color: var(--color-text-primary);
+    }
+
+    &-message {
+      font-size: $font-size-xs;
+      color: var(--color-text-secondary);
+      @include line-clamp(2);
+    }
+
+    &-time {
+      font-size: $font-size-xs;
+      color: var(--color-text-tertiary);
+    }
+  }
+
+  // Profile menu
+  &__profile {
+    .btn__text {
+      @include flex-start;
+      gap: $spacing-sm;
+      max-width: 150px;
+
+      @include mobile-first($breakpoint-md) {
+        max-width: 100px;
+      }
+    }
+
+    &-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: var(--color-primary);
+      @include flex-center;
+      overflow: hidden;
+      flex-shrink: 0;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      svg {
+        color: white;
+      }
+    }
+
+    &-name {
+      @include truncate;
+      font-weight: $font-weight-medium;
+
+      @include mobile-first($breakpoint-sm) {
+        display: none;
+      }
+    }
+
+    &-info {
+      padding: $spacing-md $spacing-lg;
+      border-bottom: 1px solid var(--color-border);
+      margin-bottom: $spacing-sm;
+
+      .header__profile-name {
+        font-weight: $font-weight-semibold;
+        color: var(--color-text-primary);
+        margin-bottom: $spacing-xs;
+      }
+    }
+
+    &-email {
+      font-size: $font-size-xs;
+      color: var(--color-text-tertiary);
+    }
+  }
+
+  // Overlay for mobile
+  &__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: transparent;
+    z-index: $z-index-dropdown - 1;
+
+    @include responsive(lg) {
+      display: none;
+    }
+  }
+}
+
+// Mobile responsive adjustments
+@include mobile-first($breakpoint-sm) {
+  .header {
+    margin: 0;
+    padding: 0 0.25rem;
+    &__right {
+      gap: $spacing-xs;
+    }
+
+    &__dropdown-menu {
+      right: -$spacing-md;
+      left: -$spacing-md;
+      width: auto;
+    }
+  }
+}
+
+// RTL support
+[dir="rtl"] {
+  .header {
+    &__dropdown-menu {
+      right: auto;
+      left: 0;
+    }
+
+    &__notification-item--unread {
+      border-left: none;
+      border-right: 3px solid var(--color-primary);
+    }
+  }
+}

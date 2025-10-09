@@ -1,0 +1,138 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  padding: $spacing-md $spacing-lg;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  min-width: 300px;
+  max-width: 500px;
+  animation: slideIn 0.3s ease-out;
+
+  @include mobile-first($breakpoint-sm) {
+    min-width: 280px;
+    max-width: calc(100vw - 32px);
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+  }
+
+  &__content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__message {
+    margin: 0;
+    font-size: $font-size-sm;
+    line-height: 1.5;
+    color: var(--color-text-primary);
+    word-wrap: break-word;
+  }
+
+  &__close {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: $spacing-xs;
+    border: none;
+    background: transparent;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all $transition-fast;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.05);
+      color: var(--color-text-primary);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+
+  // Type variants
+  &--error {
+    border-left: 4px solid #ef4444;
+
+    .toast__icon {
+      background: #fee2e2;
+      color: #ef4444;
+    }
+  }
+
+  &--success {
+    border-left: 4px solid #10b981;
+
+    .toast__icon {
+      background: #d1fae5;
+      color: #10b981;
+    }
+  }
+
+  &--warning {
+    border-left: 4px solid #f59e0b;
+
+    .toast__icon {
+      background: #fef3c7;
+      color: #f59e0b;
+    }
+  }
+
+  &--info {
+    border-left: 4px solid #3b82f6;
+
+    .toast__icon {
+      background: #dbeafe;
+      color: #3b82f6;
+    }
+  }
+}
+
+// Animation
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+// Container for toasts
+.toast-container {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  pointer-events: none;
+
+  @include mobile-first($breakpoint-sm) {
+    right: 16px;
+    left: 16px;
+    top: 70px;
+  }
+
+  .toast {
+    pointer-events: auto;
+  }
+}
+

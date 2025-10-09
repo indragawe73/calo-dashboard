@@ -1,0 +1,221 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.language-selector {
+  position: relative;
+  display: inline-block;
+
+  &__trigger {
+    @include flex-between;
+    align-items: center;
+    gap: $spacing-sm;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: $border-radius-lg;
+    padding: $spacing-sm $spacing-md;
+    color: inherit;
+    cursor: pointer;
+    transition: all $transition-fast;
+    font-size: $font-size-sm;
+    min-width: 80px;
+
+    &:hover {
+      border-color: rgba(255, 255, 255, 0.4);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: rgba(255, 255, 255, 0.6);
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+    }
+  }
+
+  &__current {
+    @include flex-start;
+    align-items: center;
+    gap: $spacing-xs;
+  }
+
+  &__icon {
+    opacity: 0.8;
+  }
+
+  &__flag {
+    font-size: 14px;
+    line-height: 1;
+  }
+
+  &__name {
+    font-weight: $font-weight-medium;
+    font-size: $font-size-xs;
+    letter-spacing: 0.5px;
+  }
+
+  &__arrow {
+    transition: transform $transition-fast;
+    opacity: 0.7;
+
+    &--open {
+      transform: rotate(180deg);
+    }
+  }
+
+  &__dropdown {
+    position: absolute;
+    top: calc(100% + #{$spacing-xs});
+    right: 0;
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: $border-radius-lg;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    z-index: $z-index-dropdown;
+    min-width: 200px;
+    overflow: hidden;
+    animation: slideInDown $transition-fast ease-out;
+
+    [data-theme="dark"] & {
+      background: var(--color-background-card);
+      border-color: var(--color-border);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+  }
+
+  &__list {
+    padding: $spacing-xs 0;
+  }
+
+  &__option {
+    @include flex-start;
+    align-items: center;
+    gap: $spacing-md;
+    width: 100%;
+    padding: $spacing-md $spacing-lg;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background-color $transition-fast;
+    text-align: left;
+
+    &:hover {
+      background: var(--color-background-secondary);
+    }
+
+    &--active {
+      background: var(--color-primary-50);
+      color: var(--color-primary);
+
+      [data-theme="dark"] & {
+        background: var(--color-primary-50);
+        color: var(--color-primary);
+      }
+    }
+
+    &-flag {
+      font-size: 16px;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    &-text {
+      @include flex-column;
+      gap: 2px;
+      flex: 1;
+    }
+
+    &-name {
+      font-size: $font-size-sm;
+      font-weight: $font-weight-medium;
+      color: var(--color-text-primary);
+    }
+
+    &-native {
+      font-size: $font-size-xs;
+      color: var(--color-text-tertiary);
+    }
+
+    &-check {
+      color: var(--color-primary);
+      font-weight: $font-weight-bold;
+      font-size: $font-size-sm;
+      flex-shrink: 0;
+    }
+  }
+
+  // Variant: Auth (for login page)
+  &--auth {
+    .language-selector__trigger {
+      border-color: rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+
+      &:hover {
+        border-color: rgba(255, 255, 255, 0.5);
+        background: rgba(255, 255, 255, 0.2);
+      }
+    }
+
+    .language-selector__dropdown {
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  // Variant: Compact (smaller size)
+  &--compact {
+    .language-selector__trigger {
+      padding: $spacing-xs $spacing-sm;
+      min-width: 60px;
+    }
+
+    .language-selector__name {
+      display: none;
+    }
+
+    .language-selector__dropdown {
+      min-width: 180px;
+    }
+  }
+}
+
+// Animation keyframes
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Responsive adjustments
+@include mobile-first($breakpoint-sm) {
+  .language-selector {
+    &__dropdown {
+      min-width: 160px;
+      left: 0;
+      right: auto;
+    }
+
+    &__option {
+      padding: $spacing-sm $spacing-md;
+
+      &-text {
+        gap: 1px;
+      }
+
+      &-name {
+        font-size: $font-size-xs;
+      }
+
+      &-native {
+        font-size: 10px;
+      }
+    }
+  }
+}
