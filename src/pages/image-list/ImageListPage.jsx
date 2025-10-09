@@ -24,6 +24,7 @@ const ImageListPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [allImages, setAllImages] = useState([]);
   const [filteredImages, setFilteredImages] = useState([]);
+  const [totalRecords, setTotalRecords] = useState(0); // Total from API response
   const [selectedImage, setSelectedImage] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [_loading, _setLoading] = useState(true);
@@ -77,14 +78,21 @@ const ImageListPage = () => {
             skuItems: item.skuItems || item.sku_items || item.skus || null, // Support various field names
           }));
           
+          // Get total records from API response
+          const total = result.data.total || transformedData.length;
+          
           console.log('API Response - Transformed images:', transformedData);
+          console.log('API Response - Total records:', total);
+          
           setAllImages(transformedData);
           setFilteredImages(transformedData);
+          setTotalRecords(total);
         } else {
           // API failed - show empty state
           console.error('API failed:', result.error);
           setAllImages([]);
           setFilteredImages([]);
+          setTotalRecords(0);
           _setError(result.error);
         }
       } catch (err) {
@@ -92,6 +100,7 @@ const ImageListPage = () => {
         console.error('API error:', err);
         setAllImages([]);
         setFilteredImages([]);
+        setTotalRecords(0);
         _setError(err.message || 'Failed to load images');
       } finally {
         _setLoading(false);
@@ -155,7 +164,7 @@ const ImageListPage = () => {
   // Only apply client-side pagination if filterName is active (client-side filter)
   const shouldUseClientPagination = filterName !== '';
   
-  let currentImages, totalPages, startIndex, endIndex;
+  let currentImages, totalPages, startIndex, endIndex, displayTotal;
   
   if (shouldUseClientPagination) {
     // Client-side pagination for client-side filtered results
@@ -163,12 +172,14 @@ const ImageListPage = () => {
     endIndex = startIndex + imagesPerPage;
     currentImages = filteredImages.slice(startIndex, endIndex);
     totalPages = Math.ceil(filteredImages.length / imagesPerPage);
+    displayTotal = filteredImages.length;
   } else {
     // API pagination - display all results from API
     currentImages = filteredImages;
-    totalPages = 1; // API handles pagination, we show current page only
+    totalPages = Math.ceil(totalRecords / imagesPerPage);
     startIndex = (currentPage - 1) * imagesPerPage;
     endIndex = startIndex + filteredImages.length;
+    displayTotal = totalRecords; // Use total from API response
   }
 
   return (
@@ -281,7 +292,7 @@ const ImageListPage = () => {
             &lt;
           </button>
           <span className="image-list-page__pagination-info">
-            {startIndex + 1} - {Math.min(endIndex, filteredImages.length)} of {filteredImages.length}
+            {startIndex + 1} - {Math.min(endIndex, displayTotal)} of {displayTotal}
           </span>
           <button 
             className="image-list-page__pagination-btn"
