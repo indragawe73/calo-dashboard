@@ -5,6 +5,36 @@ import toast from '../../utils/toast';
 import AuthImage from './AuthImage';
 import './ImageModal.scss';
 
+// Utility function to format datetime to user's local timezone
+const formatToLocalDateTime = (dateTimeString) => {
+  if (!dateTimeString) return 'N/A';
+  
+  try {
+    // Parse the datetime string to Date object
+    const date = new Date(dateTimeString);
+    
+    // Check if date is valid
+    if (isNaN(date.getTime())) return dateTimeString;
+    
+    // Format to user's local timezone with readable format
+    const options = {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false, // Use 24-hour format
+      timeZoneName: 'short' // Show timezone abbreviation
+    };
+    
+    return date.toLocaleString(undefined, options);
+  } catch (error) {
+    console.error('Error formatting date:', error);
+    return dateTimeString;
+  }
+};
+
 const ImageModal = ({ image, isOpen, onClose }) => {
   useEffect(() => {
     const handleEscape = (e) => {
@@ -147,13 +177,14 @@ const ImageModal = ({ image, isOpen, onClose }) => {
                   <Calendar size={16} />
                   <div>
                     <label>Date & Time</label>
-                    <span>
+                    <span>{formatToLocalDateTime(image.detectionDateTime)}</span>
+                    {/* <span>
                       {new Date(image.date).toLocaleDateString('en-GB', {
                         day: '2-digit',
                         month: '2-digit',
                         year: 'numeric'
                       })}
-                    </span>
+                    </span> */}
                   </div>
                 </div>
                 
