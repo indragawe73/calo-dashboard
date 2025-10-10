@@ -62,6 +62,20 @@
   }
 }
 
+.line-head {
+  height: 30px;
+  width: 100vw;
+  background-color: var(--color-sidebar-background);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1030;
+
+  @include mobile-first($breakpoint-lg) { 
+    display: none;
+  }
+}
+
 // Smooth transitions for layout changes
 .dashboard-layout,
 .dashboard-layout * {

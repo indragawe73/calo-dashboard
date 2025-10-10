@@ -12,16 +12,18 @@
   box-shadow: $shadow-sm;
   z-index: $z-index-sticky;
   position: relative;
-  margin: 10px 20px 0;
+  margin: 40px 20px 0;
   border-radius: 20px;
   height: 75px;
   // height: 60px;
 
   @include mobile-first($breakpoint-lg) {
     padding: 0 $spacing-lg;
+    margin: 5px 20px 0;
   }
-
+  
   @include mobile-first($breakpoint-md) {
+    margin: 5px 20px 0;
     padding: 0 $spacing-md;
   }
 

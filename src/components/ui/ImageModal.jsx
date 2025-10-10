@@ -244,29 +244,35 @@ const ImageModal = ({ image, isOpen, onClose }) => {
                   </div>
                 </div>
                 
-                {/* Show SKU Items if available */}
-                {image.skuItems && Array.isArray(image.skuItems) && image.skuItems.length > 0 && (
-                  <div className="image-modal__detail-item image-modal__detail-item--full">
-                    <div className="image-modal__sku-items">
-                      <label>SKU Items ({image.skuItems.length})</label>
-                      <div className="image-modal__sku-list">
-                        {image.skuItems.map((sku, index) => (
-                          <div key={index} className="image-modal__sku-item">
-                            <div className="image-modal__sku-header">
-                              <span className="image-modal__sku-name">{sku.itemName || sku.name || 'Unknown'}</span>
-                              <span className={`image-modal__sku-status image-modal__sku-status--${(sku.status || '').toLowerCase()}`}>
-                                {sku.status || 'N/A'}
-                              </span>
+                {/* Show SKU Items if available - Filter only OcrVsFoodLabel source */}
+                {(() => {
+                  const filteredSkuItems = image.skuItems && Array.isArray(image.skuItems) 
+                    ? image.skuItems.filter(sku => sku.source === 'OcrVsFoodLabel')
+                    : [];
+                  
+                  return filteredSkuItems.length > 0 && (
+                    <div className="image-modal__detail-item image-modal__detail-item--full">
+                      <div className="image-modal__sku-items">
+                        <label>SKU Items ({filteredSkuItems.length})</label>
+                        <div className="image-modal__sku-list">
+                          {filteredSkuItems.map((sku, index) => (
+                            <div key={index} className="image-modal__sku-item">
+                              <div className="image-modal__sku-header">
+                                <span className="image-modal__sku-name">{sku.itemName || sku.name || 'Unknown'}</span>
+                                <span className={`image-modal__sku-status image-modal__sku-status--${(sku.status || '').toLowerCase()}`}>
+                                  {sku.status || 'N/A'}
+                                </span>
+                              </div>
+                              <div className="image-modal__sku-source">
+                                Source: {sku.source || 'Unknown'}
+                              </div>
                             </div>
-                            <div className="image-modal__sku-source">
-                              Source: {sku.source || 'Unknown'}
-                            </div>
-                          </div>
-                        ))}
+                          ))}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )}
+                  );
+                })()}
               </div>
             </div>
 

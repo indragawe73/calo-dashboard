@@ -58,7 +58,7 @@ const LanguageSelector = ({ variant = 'default', className = '' }) => {
       className={`language-selector language-selector--${variant} ${className}`}
       ref={dropdownRef}
     >
-      <button
+      {/* <button
         type="button"
         className="language-selector__trigger"
         onClick={toggleDropdown}
@@ -74,7 +74,7 @@ const LanguageSelector = ({ variant = 'default', className = '' }) => {
           size={14} 
           className={`language-selector__arrow ${isOpen ? 'language-selector__arrow--open' : ''}`}
         />
-      </button>
+      </button> */}
 
       {isOpen && (
         <div className="language-selector__dropdown">

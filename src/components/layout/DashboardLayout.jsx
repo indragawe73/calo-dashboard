@@ -27,6 +27,7 @@ const DashboardLayout = ({ children }) => {
 
   return (
     <div className={layoutClasses}>
+      <div className='line-head'></div>
       <Header />
       <Sidebar />
       <main className="dashboard-layout__main">
