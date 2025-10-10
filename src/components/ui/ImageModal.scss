@@ -356,6 +356,38 @@
     font-style: italic;
   }
 
+  &__date {
+    display: inline-block;
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+    color: var(--color-text-primary);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    padding: $spacing-xs 0;
+    letter-spacing: 0.02em;
+  }
+
+  &__time {
+    display: inline-block;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    color: #fff;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: $spacing-sm $spacing-md;
+    border-radius: $border-radius-md;
+    box-shadow: 0 4px 6px rgba(102, 126, 234, 0.3);
+    letter-spacing: 0.05em;
+  }
+
+  &__time-badge-2-container {
+    display: flex;
+    flex-direction: row !important;
+    justify-content: flex-start;
+  }
+
   &__time-badge {
     display: inline-block;
     padding: $spacing-xs $spacing-sm;
@@ -365,6 +397,28 @@
     text-transform: uppercase;
     letter-spacing: 0.05em;
     width: 140px;
+    text-align: center;
+
+    &.morning {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    &.evening {
+      background: #EBF2FE;
+      color: #00B75A;
+    }
+  }
+  
+  &__time-badge-2 {
+    display: inline-block;
+    padding: $spacing-xs $spacing-sm;
+    border-radius: $border-radius-full;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    width: 160px;
     text-align: center;
 
     &.morning {

@@ -5,32 +5,48 @@ import toast from '../../utils/toast';
 import AuthImage from './AuthImage';
 import './ImageModal.scss';
 
-// Utility function to format datetime to user's local timezone
-const formatToLocalDateTime = (dateTimeString) => {
+// Utility function to format date to user's local timezone
+const formatToLocalDate = (dateTimeString) => {
   if (!dateTimeString) return 'N/A';
   
   try {
-    // Parse the datetime string to Date object
     const date = new Date(dateTimeString);
-    
-    // Check if date is valid
     if (isNaN(date.getTime())) return dateTimeString;
     
-    // Format to user's local timezone with readable format
     const options = {
+      // weekday: 'long',
       year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
+      month: 'numeric',
+      // month: 'long',
+      day: 'numeric'
+    };
+    
+    return date.toLocaleDateString(undefined, options);
+  } catch (error) {
+    console.error('Error formatting date:', error);
+    return dateTimeString;
+  }
+};
+
+// Utility function to format time to user's local timezone
+const formatToLocalTime = (dateTimeString) => {
+  if (!dateTimeString) return 'N/A';
+  
+  try {
+    const date = new Date(dateTimeString);
+    if (isNaN(date.getTime())) return dateTimeString;
+    
+    const options = {
       hour: '2-digit',
       minute: '2-digit',
       second: '2-digit',
-      hour12: false, // Use 24-hour format
-      timeZoneName: 'short' // Show timezone abbreviation
+      hour12: false,
+      timeZoneName: 'short'
     };
     
-    return date.toLocaleString(undefined, options);
+    return date.toLocaleTimeString(undefined, options);
   } catch (error) {
-    console.error('Error formatting date:', error);
+    console.error('Error formatting time:', error);
     return dateTimeString;
   }
 };
@@ -164,27 +180,42 @@ const ImageModal = ({ image, isOpen, onClose }) => {
             <div className="image-modal__detail-section">
               {/* <h3>Image Information</h3> */}
               <div className="image-modal__detail-grid">
-                <div className="image-modal__detail-item">
+                {/* <div className="image-modal__detail-item">
                   <FileText size={16} />
                   <div>
                     <label>Filename</label>
-                    {/* <span>{JSON.stringify(image)}</span> */}
                     <span>{image.filename}</span>
+                  </div>
+                </div> */}
+                
+                {/* <div className="image-modal__detail-item">
+                  <Calendar size={16} />
+                  <div>
+                    <label>Date</label>
+                    <span className="image-modal__date">{formatToLocalDate(image.detectionDateTime)}</span>
                   </div>
                 </div>
                 
                 <div className="image-modal__detail-item">
-                  <Calendar size={16} />
+                  <Clock size={16} />
+                  <div>
+                    <label>Time</label>
+                    <span className="image-modal__time">{formatToLocalTime(image.detectionDateTime)}</span>
+                  </div>
+                </div> */}
+                
+                <div className="image-modal__detail-item">
+                <Calendar size={16} />
                   <div>
                     <label>Date & Time</label>
-                    <span>{formatToLocalDateTime(image.detectionDateTime)}</span>
-                    {/* <span>
-                      {new Date(image.date).toLocaleDateString('en-GB', {
-                        day: '2-digit',
-                        month: '2-digit',
-                        year: 'numeric'
-                      })}
-                    </span> */}
+                    <div className="image-modal__time-badge-2-container">
+                      <span className={`image-modal__time-badge ${image.time_period.toLowerCase()}`}>
+                        {formatToLocalDate(image.detectionDateTime)} 
+                      </span>
+                      <span className={`image-modal__time-badge-2 ${image.time_period.toLowerCase()}`}>
+                        {formatToLocalTime(image.detectionDateTime)}
+                      </span>
+                    </div>
                   </div>
                 </div>
                 
@@ -192,7 +223,6 @@ const ImageModal = ({ image, isOpen, onClose }) => {
                   <Clock size={16} />
                   <div>
                     <label>Delivery Slot</label>
-                    {/* <label>Time Period</label> */}
                     <span className={`image-modal__time-badge ${image.time_period.toLowerCase()}`}>
                       {image.time_period}
                     </span>
