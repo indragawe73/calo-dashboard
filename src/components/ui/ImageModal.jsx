@@ -41,7 +41,7 @@ const formatToLocalTime = (dateTimeString) => {
       minute: '2-digit',
       second: '2-digit',
       hour12: false,
-      timeZoneName: 'short'
+      // timeZoneName: 'short'
     };
     
     return date.toLocaleTimeString(undefined, options);
