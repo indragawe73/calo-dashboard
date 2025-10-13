@@ -158,13 +158,62 @@ const ImageListPage = () => {
     setSelectedImage(null);
   };
 
+  // Generate page numbers with ellipsis
+  const generatePageNumbers = (currentPage, totalPages) => {
+    const pages = [];
+    const maxVisible = 5; // Maximum visible page numbers
+    
+    if (totalPages <= maxVisible) {
+      // Show all pages if total is small
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      // Always show first page
+      pages.push(1);
+      
+      if (currentPage <= 3) {
+        // Show first few pages
+        for (let i = 2; i <= Math.min(4, totalPages - 1); i++) {
+          pages.push(i);
+        }
+        if (totalPages > 4) {
+          pages.push('...');
+        }
+      } else if (currentPage >= totalPages - 2) {
+        // Show last few pages
+        if (totalPages > 4) {
+          pages.push('...');
+        }
+        for (let i = Math.max(totalPages - 3, 2); i <= totalPages - 1; i++) {
+          pages.push(i);
+        }
+      } else {
+        // Show pages around current page
+        pages.push('...');
+        for (let i = currentPage - 1; i <= currentPage + 1; i++) {
+          pages.push(i);
+        }
+        pages.push('...');
+      }
+      
+      // Always show last page
+      if (totalPages > 1) {
+        pages.push(totalPages);
+      }
+    }
+    
+    return pages;
+  };
+
+
   const timePeriods = ['Morning', 'Evening'];
 
   // Pagination is handled by API, so we display all filtered images directly
   // Only apply client-side pagination if filterName is active (client-side filter)
   const shouldUseClientPagination = filterName !== '';
   
-  let currentImages, totalPages, startIndex, endIndex, displayTotal;
+  let currentImages, totalPages, startIndex, endIndex;
   
   if (shouldUseClientPagination) {
     // Client-side pagination for client-side filtered results
@@ -172,14 +221,12 @@ const ImageListPage = () => {
     endIndex = startIndex + imagesPerPage;
     currentImages = filteredImages.slice(startIndex, endIndex);
     totalPages = Math.ceil(filteredImages.length / imagesPerPage);
-    displayTotal = filteredImages.length;
   } else {
     // API pagination - display all results from API
     currentImages = filteredImages;
     totalPages = Math.ceil(totalRecords / imagesPerPage);
     startIndex = (currentPage - 1) * imagesPerPage;
     endIndex = startIndex + filteredImages.length;
-    displayTotal = totalRecords; // Use total from API response
   }
 
   return (
@@ -285,22 +332,50 @@ const ImageListPage = () => {
         
         <div className="image-list-page__pagination-controls">
           <button 
-            className="image-list-page__pagination-btn"
+            className="image-list-page__pagination-btn image-list-page__pagination-btn--nav"
             disabled={currentPage === 1}
             onClick={() => setCurrentPage(currentPage - 1)}
           >
             &lt;
           </button>
-          <span className="image-list-page__pagination-info">
-            {startIndex + 1} - {Math.min(endIndex, displayTotal)} of {displayTotal}
-          </span>
+          
+          <div className="image-list-page__page-numbers">
+            {generatePageNumbers(currentPage, totalPages).map((page, index) => (
+              <button
+                key={index}
+                className={`image-list-page__page-btn ${
+                  page === currentPage ? 'image-list-page__page-btn--active' : ''
+                } ${page === '...' ? 'image-list-page__page-btn--ellipsis' : ''}`}
+                onClick={() => typeof page === 'number' && setCurrentPage(page)}
+                disabled={page === '...'}
+              >
+                {page}
+              </button>
+            ))}
+          </div>
+          
           <button 
-            className="image-list-page__pagination-btn"
+            className="image-list-page__pagination-btn image-list-page__pagination-btn--nav"
             disabled={currentPage === totalPages}
             onClick={() => setCurrentPage(currentPage + 1)}
           >
             &gt;
           </button>
+        </div>
+
+        <div className="image-list-page__go-to-page">
+          <span>Go to page:</span>
+          <select
+            className="image-list-page__go-to-select"
+            value={currentPage}
+            onChange={(e) => setCurrentPage(Number(e.target.value))}
+          >
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+              <option key={page} value={page}>
+                {page}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
 
