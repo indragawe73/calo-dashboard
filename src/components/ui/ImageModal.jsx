@@ -10,17 +10,23 @@ const formatToLocalDate = (dateTimeString) => {
   if (!dateTimeString) return 'N/A';
   
   try {
-    const date = new Date(dateTimeString);
+    let safeDateTime = dateTimeString.trim();
+
+    // Tambahkan 'Z' hanya jika string belum punya offset timezone (±HH:MM atau Z)
+    if (!safeDateTime.endsWith('Z') && !/[+-]\d{2}:\d{2}$/.test(safeDateTime)) {
+      safeDateTime += 'Z';
+    }
+
+    const date = new Date(safeDateTime);
     if (isNaN(date.getTime())) return dateTimeString;
-    
+
     const options = {
-      // weekday: 'long',
       year: 'numeric',
-      month: 'numeric',
-      // month: 'long',
-      day: 'numeric'
+      month: 'numeric', // bisa diganti 'long' kalau mau nama bulan
+      day: 'numeric',
     };
-    
+
+    // tampilkan tanggal lokal sesuai zona waktu browser
     return date.toLocaleDateString(undefined, options);
   } catch (error) {
     console.error('Error formatting date:', error);
@@ -28,28 +34,36 @@ const formatToLocalDate = (dateTimeString) => {
   }
 };
 
+
 // Utility function to format time to user's local timezone
 const formatToLocalTime = (dateTimeString) => {
   if (!dateTimeString) return 'N/A';
   
   try {
-    const date = new Date(dateTimeString);
-    if (isNaN(date.getTime())) return dateTimeString;
-    
+    // Pastikan string waktu dianggap UTC dengan menambahkan 'Z' jika belum ada
+    let safeDateTime = dateTimeString.trim();
+    if (!safeDateTime.endsWith('Z') && !/[+-]\d{2}:\d{2}$/.test(safeDateTime)) {
+      safeDateTime += 'Z';
+    }
+
+    const date = new Date(safeDateTime);
+    if (isNaN(date.getTime())) return dateTimeString; // Jika invalid date
+
     const options = {
       hour: '2-digit',
       minute: '2-digit',
       second: '2-digit',
       hour12: false,
-      // timeZoneName: 'short'
+      // timeZoneName: 'short' // aktifkan kalau mau tampil "GMT+7" misalnya
     };
-    
+
     return date.toLocaleTimeString(undefined, options);
   } catch (error) {
     console.error('Error formatting time:', error);
     return dateTimeString;
   }
 };
+
 
 const ImageModal = ({ image, isOpen, onClose }) => {
   useEffect(() => {
