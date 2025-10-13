@@ -135,13 +135,13 @@ const LoginPage = () => {
       <div className="auth-page__left-panel">
         <div className="auth-page__left-content">
           <div className="auth-page__logo">
-            <div className="auth-page__logo-icon">
+            {/* <div className="auth-page__logo-icon">
               <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
                 <rect width="40" height="40" rx="8" fill="white" fillOpacity="0.2"/>
                 <rect x="8" y="8" width="24" height="24" rx="4" fill="white"/>
                 <rect x="12" y="12" width="16" height="16" rx="2" fill="#4ECDC4"/>
               </svg>
-            </div>
+            </div> */}
             <span className="auth-page__logo-text">C A L O</span>
           </div>
           

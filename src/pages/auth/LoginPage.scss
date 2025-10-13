@@ -79,9 +79,15 @@
     }
 
     &-text {
-      font-size: $font-size-3xl;
-      font-weight: $font-weight-semibold;
-      letter-spacing: 0.5px;
+      // font-size: $font-size-3xl;
+      // font-weight: $font-weight-semibold;
+      // letter-spacing: 0.5px;
+      
+      font-size: 40px;
+      color: rgba(255, 255, 255, 0.95);
+      font-weight: $font-weight-bold;
+      line-height: 1;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
     }
   }
 
