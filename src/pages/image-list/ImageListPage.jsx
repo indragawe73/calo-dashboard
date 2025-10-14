@@ -17,6 +17,7 @@ const ImageListPage = () => {
   
   // State management
   const [searchQuery, setSearchQuery] = useState('');
+  const [searchDeliveryId, setSearchDeliveryId] = useState('');
   const [filterName, setFilterName] = useState('');
   const [filterDate, setFilterDate] = useState('');
   const [filterTimePeriod, setFilterTimePeriod] = useState('');
@@ -57,6 +58,11 @@ const ImageListPage = () => {
         // Add invoice number search filter
         if (searchQuery) {
           apiParams.invoiceNumber = searchQuery;
+        }
+
+        // Add delivery ID search filter
+        if (searchDeliveryId) {
+          apiParams.deliveryId = searchDeliveryId;
         }
 
         console.log('API Parameters:', apiParams);
@@ -108,7 +114,7 @@ const ImageListPage = () => {
     };
 
     loadImages();
-  }, [currentPage, imagesPerPage, filterDate, filterTimePeriod, searchQuery]);
+  }, [currentPage, imagesPerPage, filterDate, filterTimePeriod, searchQuery, searchDeliveryId]);
 
   useEffect(() => {
     dispatch(setPageTitle('Image List'));
@@ -241,9 +247,20 @@ const ImageListPage = () => {
       {/* Search Bar */}
       <div className="image-list-page__search">
         <Input
-          placeholder="Search Invoice Number..."
+          placeholder="Search Invoice Number"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
+          size="lg"
+          icon={<Search size={16} />}
+          iconPosition="left"
+          className="image-list-page__search-input"
+        />
+      {/* </div>
+      <div className="image-list-page__search"> */}
+        <Input
+          placeholder="Search Delivery ID"
+          value={searchDeliveryId}
+          onChange={(e) => setSearchDeliveryId(e.target.value)}
           size="lg"
           icon={<Search size={16} />}
           iconPosition="left"
@@ -303,7 +320,7 @@ const ImageListPage = () => {
         ) : currentImages.length === 0 ? (
           <div className="image-list-page__empty">
             <p>No images found</p>
-            {(searchQuery || filterName || filterDate || filterTimePeriod) && (
+            {(searchQuery || searchDeliveryId || filterName || filterDate || filterTimePeriod) && (
               <p>Try adjusting your filters</p>
             )}
           </div>

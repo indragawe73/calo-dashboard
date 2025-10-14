@@ -35,8 +35,13 @@
 
   &__search {
     margin-bottom: $spacing-xl;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 1rem;
     
     &-input {
+      // max-width: 49%;
       max-width: 100%;
       border: 1px solid var(--color-sidebar-background);
       // background-color: var(--color-sidebar-background);
