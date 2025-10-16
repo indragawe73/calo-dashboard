@@ -65,11 +65,12 @@ const ImageGrid = ({ images, onImageClick }) => {
               <div className="image-grid__details">
                 <span className="image-grid__uuid">{image.uuid_delivery_id}</span>
                 <span className="image-grid__date">
-                  {new Date(image.date).toLocaleDateString('en-GB', {
+                  {/* {new Date(image.date).toLocaleDateString('en-GB', {
                     day: '2-digit',
                     month: '2-digit',
                     year: 'numeric'
-                  })}
+                  })} */}
+                  {image.date}
                 </span>
                 <span className={`image-grid__time ${image.time_period.toLowerCase()}`}>
                   {image.time_period}
