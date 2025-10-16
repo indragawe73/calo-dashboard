@@ -20,6 +20,65 @@ const ImageGrid = ({ images, onImageClick }) => {
     onImageClick?.(image);
   };
 
+  // Utility function to format date to user's local timezone
+  const formatToLocalDate = (dateTimeString) => {
+    if (!dateTimeString) return 'N/A';
+    
+    try {
+      let safeDateTime = dateTimeString.trim();
+
+      // Tambahkan 'Z' hanya jika string belum punya offset timezone (±HH:MM atau Z)
+      if (!safeDateTime.endsWith('Z') && !/[+-]\d{2}:\d{2}$/.test(safeDateTime)) {
+        safeDateTime += 'Z';
+      }
+
+      const date = new Date(safeDateTime);
+      if (isNaN(date.getTime())) return dateTimeString;
+
+      const options = {
+        year: 'numeric',
+        month: 'numeric', // bisa diganti 'long' kalau mau nama bulan
+        day: 'numeric',
+      };
+
+      // tampilkan tanggal lokal sesuai zona waktu browser
+      return date.toLocaleDateString(undefined, options);
+    } catch (error) {
+      console.error('Error formatting date:', error);
+      return dateTimeString;
+    }
+  };
+
+
+  // Utility function to format time to user's local timezone
+  const formatToLocalTime = (dateTimeString) => {
+    if (!dateTimeString) return 'N/A';
+    
+    try {
+      // Pastikan string waktu dianggap UTC dengan menambahkan 'Z' jika belum ada
+      let safeDateTime = dateTimeString.trim();
+      if (!safeDateTime.endsWith('Z') && !/[+-]\d{2}:\d{2}$/.test(safeDateTime)) {
+        safeDateTime += 'Z';
+      }
+
+      const date = new Date(safeDateTime);
+      if (isNaN(date.getTime())) return dateTimeString; // Jika invalid date
+
+      const options = {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false,
+        // timeZoneName: 'short' // aktifkan kalau mau tampil "GMT+7" misalnya
+      };
+
+      return date.toLocaleTimeString(undefined, options);
+    } catch (error) {
+      console.error('Error formatting time:', error);
+      return dateTimeString;
+    }
+  };
+
   return (
     <div className="image-grid">
       <div className="image-grid__container">
@@ -70,11 +129,17 @@ const ImageGrid = ({ images, onImageClick }) => {
                     month: '2-digit',
                     year: 'numeric'
                   })} */}
-                  {image.date}
+                  {/* {image.date} */}
                 </span>
-                <span className={`image-grid__time ${image.time_period.toLowerCase()}`}>
-                  {image.time_period}
-                </span>
+                <div>
+                  <span className={`image-grid__time ${image.time_period.toLowerCase()}`}>
+                    {formatToLocalDate(image.detectionDateTime)} - {formatToLocalTime(image.detectionDateTime)} - {image.time_period}
+                  </span>
+                  {/* <span className={`image-grid__time ${image.time_period.toLowerCase()}`}>
+                  </span>
+                  <span className={`image-grid__time ${image.time_period.toLowerCase()}`}>
+                  </span> */}
+                </div>
               </div>
             </div>
           </div>
