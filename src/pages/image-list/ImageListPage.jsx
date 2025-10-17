@@ -26,7 +26,7 @@ const ImageListPage = () => {
   const [allImages, setAllImages] = useState([]);
   const [filteredImages, setFilteredImages] = useState([]);
   const [totalRecords, setTotalRecords] = useState(0); // Total from API response
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [_loading, _setLoading] = useState(true);
   const [_error, _setError] = useState(null);
@@ -155,13 +155,14 @@ const ImageListPage = () => {
 
   const handleImageClick = (image) => {
     console.log('Image clicked:', image);
-    setSelectedImage(image);
+    // Find the index of clicked image in currentImages
+    const index = currentImages.findIndex(img => img.id === image.id);
+    setSelectedImageIndex(index);
     setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    setSelectedImage(null);
   };
 
   // Generate page numbers with ellipsis
@@ -398,7 +399,8 @@ const ImageListPage = () => {
 
       {/* Image Modal */}
       <ImageModal 
-        image={selectedImage}
+        images={currentImages}
+        currentIndex={selectedImageIndex}
         isOpen={isModalOpen}
         onClose={handleCloseModal}
       />

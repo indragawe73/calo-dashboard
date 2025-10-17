@@ -84,6 +84,24 @@
     gap: $spacing-sm;
   }
 
+  &__counter {
+    display: flex;
+    align-items: center;
+    padding: $spacing-xs $spacing-md;
+    background: var(--color-primary);
+    color: #fff;
+    border-radius: $border-radius-full;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    white-space: nowrap;
+    margin-right: $spacing-xs;
+
+    @include mobile-first($breakpoint-md) {
+      font-size: $font-size-xs;
+      padding: $spacing-xs $spacing-sm;
+    }
+  }
+
   &__action-btn,
   &__close-btn {
     display: flex;
@@ -138,6 +156,65 @@
     @include mobile-first($breakpoint-lg) {
       height: 50%;
       min-height: 300px;
+    }
+  }
+
+  &__nav-btn {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border: none;
+    border-radius: $border-radius-full;
+    background: var(--color-primary);
+    color: #fff;
+    cursor: pointer;
+    transition: all $transition-normal;
+    z-index: 10;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+    &:hover:not(&--disabled) {
+      background: var(--color-primary-dark);
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    &:active:not(&--disabled) {
+      transform: scale(1.05);
+    }
+
+    &--prev {
+      left: $spacing-xl;
+
+      @include mobile-first($breakpoint-md) {
+        left: $spacing-sm;
+      }
+    }
+
+    &--next {
+      right: $spacing-xl;
+
+      @include mobile-first($breakpoint-md) {
+        right: $spacing-sm;
+      }
+    }
+
+    &--disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    @include mobile-first($breakpoint-md) {
+      width: 40px;
+      height: 40px;
+
+      svg {
+        width: 24px;
+        height: 24px;
+      }
     }
   }
 

@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import { X, Download, Eye, Calendar, Clock, FileText } from 'lucide-react';
+import { useEffect, useState, useCallback } from 'react';
+import { X, Download, Calendar, Clock, FileText, ChevronLeft, ChevronRight } from 'lucide-react';
 import { handleUnauthorized } from '../../utils/authHandler';
 import toast from '../../utils/toast';
 import AuthImage from './AuthImage';
@@ -65,24 +65,54 @@ const formatToLocalTime = (dateTimeString) => {
 };
 
 
-const ImageModal = ({ image, isOpen, onClose }) => {
+const ImageModal = ({ images = [], currentIndex = 0, isOpen, onClose }) => {
+  const [activeIndex, setActiveIndex] = useState(currentIndex);
+
+  // Update activeIndex when currentIndex prop changes (new image clicked)
   useEffect(() => {
-    const handleEscape = (e) => {
+    setActiveIndex(currentIndex);
+  }, [currentIndex]);
+
+  // Get current image from array
+  const image = images[activeIndex];
+
+  // Navigation handlers
+  const handlePrev = useCallback(() => {
+    if (activeIndex > 0) {
+      setActiveIndex(activeIndex - 1);
+    }
+  }, [activeIndex]);
+
+  const handleNext = useCallback(() => {
+    if (activeIndex < images.length - 1) {
+      setActiveIndex(activeIndex + 1);
+    }
+  }, [activeIndex, images.length]);
+
+  const hasPrev = activeIndex > 0;
+  const hasNext = activeIndex < images.length - 1;
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
       if (e.key === 'Escape') {
         onClose();
+      } else if (e.key === 'ArrowLeft') {
+        handlePrev();
+      } else if (e.key === 'ArrowRight') {
+        handleNext();
       }
     };
 
     if (isOpen) {
-      document.addEventListener('keydown', handleEscape);
+      document.addEventListener('keydown', handleKeyDown);
       document.body.style.overflow = 'hidden';
     }
 
     return () => {
-      document.removeEventListener('keydown', handleEscape);
+      document.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = 'unset';
     };
-  }, [isOpen, onClose]);
+  }, [isOpen, onClose, handlePrev, handleNext]);
 
   if (!isOpen || !image) return null;
 
@@ -147,6 +177,9 @@ const ImageModal = ({ image, isOpen, onClose }) => {
             <span>{image.filename}</span>
           </div>
           <div className="image-modal__actions">
+            <div className="image-modal__counter">
+              {activeIndex + 1} / {images.length}
+            </div>
             <button 
               className="image-modal__action-btn"
               onClick={handleDownload}
@@ -166,6 +199,16 @@ const ImageModal = ({ image, isOpen, onClose }) => {
 
         <div className="image-modal__body">
           <div className="image-modal__image-container">
+            {/* Previous Button */}
+            <button
+              className={`image-modal__nav-btn image-modal__nav-btn--prev ${!hasPrev ? 'image-modal__nav-btn--disabled' : ''}`}
+              onClick={handlePrev}
+              disabled={!hasPrev}
+              title="Previous Image (←)"
+            >
+              <ChevronLeft size={32} />
+            </button>
+
             <AuthImage 
               src={image.url} 
               alt={image.filename}
@@ -188,6 +231,16 @@ const ImageModal = ({ image, isOpen, onClose }) => {
                 ))}
               </div>
             )}
+
+            {/* Next Button */}
+            <button
+              className={`image-modal__nav-btn image-modal__nav-btn--next ${!hasNext ? 'image-modal__nav-btn--disabled' : ''}`}
+              onClick={handleNext}
+              disabled={!hasNext}
+              title="Next Image (→)"
+            >
+              <ChevronRight size={32} />
+            </button>
           </div>
 
           <div className="image-modal__details">
