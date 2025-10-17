@@ -124,6 +124,11 @@ const ImageListPage = () => {
     ]));
   }, [dispatch]);
 
+  // Reset page to 1 when API filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, searchDeliveryId, filterDate, filterTimePeriod]);
+
   // Client-side filtering (only for filters NOT handled by API)
   useEffect(() => {
     let filtered = allImages;
