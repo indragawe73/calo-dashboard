@@ -9,6 +9,7 @@ import ApiStatus from './components/dev/ApiStatus';
 import { Suspense } from 'react';
 import { AdminTablePage, RegisterPage } from './pages/administration';
 import { ImageListPage } from './pages/image-list';
+import JobSchedulesPage from './pages/job-schedules';
 import LoginDebugger from './components/dev/LoginDebugger';
 import ImagesDebugger from './components/dev/ImagesDebugger';
 
@@ -96,6 +97,16 @@ function App() {
                   <RegisterPage />
                 </DashboardLayout>
               </AdminRoute>
+            } 
+          />
+          <Route 
+            path="/dashboard/job-schedules" 
+            element={
+              <ProtectedRoute>
+                <DashboardLayout>
+                  <JobSchedulesPage />
+                </DashboardLayout>
+              </ProtectedRoute>
             } 
           />
           

@@ -77,10 +77,10 @@ const Sidebar = () => {
       //   path: '/dashboard',
       // },
       // {
-      //   id: 'administration',
-      //   label: t('navigation.administration'),
-      //   icon: <Settings size={20} />,
-      //   path: '/dashboard/administration/site-details',
+      //   id: 'form-report',
+      //   label: t('navigation.formReport'),
+      //   icon: <FileText size={20} />,
+      //   path: '/dashboard/form-report/forms',
       // },
       {
         id: 'image',
@@ -89,6 +89,18 @@ const Sidebar = () => {
         icon: <FileText size={20} />,
         path: '/dashboard/image-list',
       },
+      {
+        id: 'job-schedules',
+        label: t('navigation.jobSchedules'),
+        icon: <Clock size={20} />,
+        path: '/dashboard/job-schedules',
+      },
+      // {
+      //   id: 'administration',
+      //   label: t('navigation.administration'),
+      //   icon: <Settings size={20} />,
+      //   path: '/dashboard/administration/site-details',
+      // },
       // {
       //   id: 'procedure',
       //   label: t('navigation.procedure'),

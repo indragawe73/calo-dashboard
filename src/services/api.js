@@ -195,3 +195,145 @@ export const deliveryService = {
     }
   },
 };
+
+// Job Schedules Service (Flow Runs)
+export const jobSchedulesService = {
+  // Get flow runs with pagination
+  async getFlowRuns({ limit = 100, offset = 0 } = {}) {
+    try {
+      // This endpoint uses a different base URL
+      const API_BASE_URL = 'http://100.107.61.112:4201/api';
+      const url = `${API_BASE_URL}/flow-runs?limit=${limit}&offset=${offset}`;
+      
+      console.log('Fetching flow runs:', { limit, offset, url });
+      
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        mode: 'cors',
+        credentials: 'omit',
+      });
+
+      if (!response.ok) {
+        throw new Error(`API Error: ${response.status} ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      
+      console.log('Flow runs API response:', data);
+      
+      return {
+        success: true,
+        data: data,
+      };
+    } catch (error) {
+      console.error('Flow runs API error:', error);
+      
+      let errorMessage = error.message;
+      
+      if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+        errorMessage = 'Network error: Unable to connect to the server.';
+      }
+      
+      return {
+        success: false,
+        error: errorMessage,
+      };
+    }
+  },
+
+  // Get flow run logs by flow_run_id
+  async getFlowRunLogs(flowRunId) {
+    try {
+      const API_BASE_URL = 'http://100.107.61.112:4201/api';
+      const url = `${API_BASE_URL}/flow-runs/${flowRunId}/logs`;
+      
+      console.log('Fetching flow run logs:', { flowRunId, url });
+      
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        mode: 'cors',
+        credentials: 'omit',
+      });
+
+      if (!response.ok) {
+        throw new Error(`API Error: ${response.status} ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      
+      console.log('Flow run logs API response:', data);
+      
+      return {
+        success: true,
+        data: data,
+      };
+    } catch (error) {
+      console.error('Flow run logs API error:', error);
+      
+      let errorMessage = error.message;
+      
+      if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+        errorMessage = 'Network error: Unable to connect to the server.';
+      }
+      
+      return {
+        success: false,
+        error: errorMessage,
+      };
+    }
+  },
+
+  // Retry flow run by flow_run_id
+  async retryFlowRun(flowRunId) {
+    try {
+      const API_BASE_URL = 'http://100.107.61.112:4201/api';
+      const url = `${API_BASE_URL}/flow-runs/${flowRunId}/retry`;
+      
+      console.log('Retrying flow run:', { flowRunId, url });
+      
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        mode: 'cors',
+        credentials: 'omit',
+      });
+
+      if (!response.ok) {
+        throw new Error(`API Error: ${response.status} ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      
+      console.log('Flow run retry API response:', data);
+      
+      return {
+        success: true,
+        data: data,
+      };
+    } catch (error) {
+      console.error('Flow run retry API error:', error);
+      
+      let errorMessage = error.message;
+      
+      if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+        errorMessage = 'Network error: Unable to connect to the server.';
+      }
+      
+      return {
+        success: false,
+        error: errorMessage,
+      };
+    }
+  },
+};
