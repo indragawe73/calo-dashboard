@@ -83,11 +83,22 @@ const Sidebar = () => {
       //   path: '/dashboard/form-report/forms',
       // },
       {
-        id: 'image',
-        // label: 'Image List',
-        label: t('navigation.image'),
+        id: 'image-1',
+        label: 'Station 1',
         icon: <FileText size={20} />,
-        path: '/dashboard/image-list',
+        path: '/dashboard/image-list?station=1',
+      },
+      {
+        id: 'image-2',
+        label: 'Station 2',
+        icon: <FileText size={20} />,
+        path: '/dashboard/image-list?station=2',
+      },
+      {
+        id: 'image-3',
+        label: 'Station 3',
+        icon: <FileText size={20} />,
+        path: '/dashboard/image-list?station=3',
       },
       {
         id: 'job-schedules',
@@ -152,13 +163,38 @@ const Sidebar = () => {
   // Check if current path matches menu item
   const isActiveMenuItem = useCallback((item) => {
     if (item.path) {
-      return location.pathname === item.path;
+      // Split path and query string
+      const [itemPath, itemQuery] = item.path.split('?');
+      const currentPath = location.pathname;
+      const currentQuery = location.search;
+      
+      // Check if pathname matches
+      if (currentPath !== itemPath) {
+        return false;
+      }
+      
+      // If item has query parameter, check if it matches
+      if (itemQuery) {
+        const itemParams = new URLSearchParams(itemQuery);
+        const currentParams = new URLSearchParams(currentQuery);
+        
+        // Check if all item query parameters match current query parameters
+        for (const [key, value] of itemParams.entries()) {
+          if (currentParams.get(key) !== value) {
+            return false;
+          }
+        }
+        return true;
+      }
+      
+      // If item has no query parameter, check if current also has no query (or only matching base path)
+      return !currentQuery || currentQuery === '';
     }
     if (item.children) {
       return item.children.some(child => isActiveMenuItem(child));
     }
     return false;
-  }, [location.pathname]);
+  }, [location.pathname, location.search]);
 
   // Auto-expand menu if it contains active item
   useEffect(() => {
