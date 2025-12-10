@@ -122,24 +122,19 @@ const ImageGrid = ({ images, onImageClick }) => {
             <div className="image-grid__info">
               <div className="image-grid__filename">{image.filename}</div>
               <div className="image-grid__details">
-                <span className="image-grid__uuid">{image.uuid_delivery_id}</span>
+                <span className="image-grid__uuid">{image.uuid_delivery_id || image.delivery_id}</span>
                 <span className="image-grid__date">
-                  {/* {new Date(image.date).toLocaleDateString('en-GB', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric'
-                  })} */}
-                  {/* {image.date} */}
+                  {image.date || ''}
                 </span>
                 <div>
-                  <span className={`image-grid__time ${image.time_period.toLowerCase()}`}>
-                    {formatToLocalDate(image.detectionDateTime)} 
+                  <span className={`image-grid__time ${(image.time_period || '').toLowerCase()}`}>
+                    {formatToLocalDate(image.detection_date_time || image.detectionDateTime)} 
                   </span>
-                  <span className={`image-grid__time ${image.time_period.toLowerCase()}`}>
-                    {formatToLocalTime(image.detectionDateTime)} 
+                  <span className={`image-grid__time ${(image.time_period || '').toLowerCase()}`}>
+                    {formatToLocalTime(image.detection_date_time || image.detectionDateTime)} 
                   </span>
-                  <span className={`image-grid__time ${image.time_period.toLowerCase()}`}>
-                    {image.time_period}
+                  <span className={`image-grid__time ${(image.time_period || '').toLowerCase()}`}>
+                    {image.time_period || 'Unknown'}
                   </span>
                 </div>
               </div>

@@ -223,11 +223,11 @@ const ImageModal = ({ image, isOpen, onClose }) => {
                   <div>
                     <label>Date & Time</label>
                     <div className="image-modal__time-badge-2-container">
-                      <span className={`image-modal__time-badge ${image.time_period.toLowerCase()}`}>
-                        {formatToLocalDate(image.detectionDateTime)} 
+                      <span className={`image-modal__time-badge ${(image.time_period || '').toLowerCase()}`}>
+                        {formatToLocalDate(image.detection_date_time || image.detectionDateTime)} 
                       </span>
-                      <span className={`image-modal__time-badge-2 ${image.time_period.toLowerCase()}`}>
-                        {formatToLocalTime(image.detectionDateTime)}
+                      <span className={`image-modal__time-badge-2 ${(image.time_period || '').toLowerCase()}`}>
+                        {formatToLocalTime(image.detection_date_time || image.detectionDateTime)}
                       </span>
                     </div>
                   </div>
@@ -237,8 +237,8 @@ const ImageModal = ({ image, isOpen, onClose }) => {
                   <Clock size={16} />
                   <div>
                     <label>Delivery Slot</label>
-                    <span className={`image-modal__time-badge ${image.time_period.toLowerCase()}`}>
-                      {image.time_period}
+                    <span className={`image-modal__time-badge ${(image.time_period || '').toLowerCase()}`}>
+                      {image.time_period || 'Unknown'}
                     </span>
                   </div>
                 </div>
@@ -247,16 +247,34 @@ const ImageModal = ({ image, isOpen, onClose }) => {
                   {/* <Eye size={16} /> */}
                   <div>
                     <label>UUID Delivery ID</label>
-                    <span className="image-modal__uuid">{image.uuid_delivery_id}</span>
+                    <span className="image-modal__uuid">{image.uuid_delivery_id || image.delivery_id || '-'}</span>
                   </div>
                 </div>
 
                 <div className="image-modal__detail-item">
                   <div>
                     <label>Invoice Number</label>
-                    <span className="image-modal__uuid">{image.invoiceNumber}</span>
+                    <span className="image-modal__uuid">{image.invoice_number || image.invoiceNumber || '-'}</span>
                   </div>
                 </div>
+                
+                {image.total_objects !== undefined && (
+                  <div className="image-modal__detail-item">
+                    <div>
+                      <label>Total Objects</label>
+                      <span className="image-modal__uuid">{image.total_objects}</span>
+                    </div>
+                  </div>
+                )}
+                
+                {image.high_confidence_count !== undefined && (
+                  <div className="image-modal__detail-item">
+                    <div>
+                      <label>High Confidence Count</label>
+                      <span className="image-modal__uuid">{image.high_confidence_count}</span>
+                    </div>
+                  </div>
+                )}
                 
                 {/* Show SKU Items if available - Filter only OcrVsFoodLabel source */}
                 {(() => {

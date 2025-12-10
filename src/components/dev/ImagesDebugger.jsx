@@ -4,11 +4,17 @@ import Button from '../ui/Button';
 import Input from '../ui/Input';
 
 const ImagesDebugger = () => {
+  // Get today's date in YYYY-MM-DD format for the date input
+  const getTodayDate = () => {
+    const today = new Date();
+    return today.toISOString().split('T')[0];
+  };
+
   const [filters, setFilters] = useState({
     page: 1,
     pageSize: 10,
     includeDetails: true,
-    date: '',
+    date: getTodayDate(), // Set to today's date by default
     timeOfDay: '',
   });
   const [result, setResult] = useState(null);

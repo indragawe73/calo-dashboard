@@ -15,11 +15,17 @@ const ImageListPage = () => {
   // const { t } = useTranslation();
   const dispatch = useDispatch();
   
+  // Get today's date in YYYY-MM-DD format for the date input
+  const getTodayDate = () => {
+    const today = new Date();
+    return today.toISOString().split('T')[0];
+  };
+  
   // State management
   const [searchQuery, setSearchQuery] = useState('');
   const [searchDeliveryId, setSearchDeliveryId] = useState('');
   const [filterName, setFilterName] = useState('');
-  const [filterDate, setFilterDate] = useState('');
+  const [filterDate, setFilterDate] = useState(getTodayDate()); // Set to today's date by default
   const [filterTimePeriod, setFilterTimePeriod] = useState('');
   const [imagesPerPage, setImagesPerPage] = useState(50);
   const [currentPage, setCurrentPage] = useState(1);
@@ -44,12 +50,10 @@ const ImageListPage = () => {
           pageSize: imagesPerPage,
           total: imagesPerPage,
           includeDetails: true,
+          date: filterDate || getTodayDate(), // Always include date, default to today if empty
         };
 
         // Add API-supported filters
-        if (filterDate) {
-          apiParams.date = filterDate;
-        }
         
         if (filterTimePeriod) {
           apiParams.timeOfDay = filterTimePeriod;
@@ -70,18 +74,27 @@ const ImageListPage = () => {
         const result = await reportsService.getImages(apiParams);
 
         if (result.success) {
-          // Transform API response to include image URLs
-          const transformedData = (result.data.data || result.data.items || []).map(item => ({
+          // Transform API response - new structure: { total, page, page_size, data: [...] }
+          const transformedData = (result.data.data || []).map(item => ({
             ...item,
-            // Generate image URL using the id from API response
+            // Always use API endpoint /api/reports/images/{id}/raw
+            // This ensures we use the correct endpoint as per Swagger documentation
             url: reportsService.getRawImageUrl(item.id),
-            // Keep other fields or provide defaults
-            filename: item.filename || item.name || `image_${item.id}`,
-            uuid_delivery_id: item.uuid_delivery_id || item.deliveryId || item.delivery_id || '-',
-            date: item.date || item.timestamp || new Date().toISOString().split('T')[0],
-            time_period: item.time_period || item.timeOfDay || item.timePeriod || 'Unknown',
-            annotations: item.annotations || null,
-            skuItems: item.skuItems || item.sku_items || item.skus || null, // Support various field names
+            // Map field names to consistent format
+            filename: item.filename || `image_${item.id}`,
+            uuid_delivery_id: item.delivery_id || item.deliveryId || '-',
+            date: item.date || '', // Format: DD/MM/YYYY
+            time_period: item.time_period || 'Unknown',
+            detection_date_time: item.detection_date_time || item.detectionDateTime || null,
+            invoice_number: item.invoice_number || item.invoiceNumber || '',
+            invoice_url: item.invoice_url || item.invoiceUrl || '',
+            annotated_image_url: item.annotated_image_url || item.annotatedImageUrl || '',
+            raw_image_url: item.raw_image_url || item.rawImageUrl || '',
+            total_objects: item.total_objects || item.totalObjects || 0,
+            high_confidence_count: item.high_confidence_count || item.highConfidenceCount || 0,
+            skuItems: item.sku_items || item.skuItems || null,
+            class_detections: item.class_detections || item.classDetections || null,
+            annotations: item.annotations || null, // Keep for backward compatibility
           }));
           
           // Get total records from API response
