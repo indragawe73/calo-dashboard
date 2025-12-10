@@ -241,7 +241,7 @@ const JobSchedulesPage = () => {
         statusStr === 'SUCCESS' || 
         statusStr === 'SUCCEEDED' || 
         statusStr === 'FINISHED') {
-      return { status: 'success', label: statusStr, icon: CheckCircle2, color: '#10b981', canRetry: false };
+      return { status: 'success', label: statusStr, icon: CheckCircle2, color: '#00ba31', canRetry: false };
     }
     
     // Failed states

@@ -43,7 +43,7 @@ const ApiStatus = () => {
   const getStatusColor = () => {
     switch (status) {
       case "connected":
-        return "#10b981";
+        return "#00ba31";
       case "checking":
         return "#f59e0b";
       case "cors-error":

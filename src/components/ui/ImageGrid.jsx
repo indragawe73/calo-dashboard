@@ -112,7 +112,7 @@ const ImageGrid = ({ images, onImageClick }) => {
                         top: `${annotation.y}%`,
                         width: `${annotation.width}%`,
                         height: `${annotation.height}%`,
-                        borderColor: annotation.color || '#10b981'
+                        borderColor: annotation.color || '#00ba31'
                       }}
                     />
                   ))}

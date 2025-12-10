@@ -78,14 +78,14 @@ const Dashboard = () => {
         data: [20, 40, 74, 60, 30, 25, 15],
         backgroundColor: [
           '#e5e7eb', // Gray for Sunday
-          '#10b981', // Green for Monday
-          '#10b981', // Green for Tuesday
-          '#10b981', // Green for Wednesday
+          '#00ba31', // Green for Monday
+          '#00ba31', // Green for Tuesday
+          '#00ba31', // Green for Wednesday
           '#e5e7eb', // Gray for Thursday
           '#e5e7eb', // Gray for Friday
           '#e5e7eb'  // Gray for Saturday
         ],
-        borderColor: '#10b981',
+        borderColor: '#00ba31',
         borderWidth: 1
       }
     ]
@@ -114,7 +114,7 @@ const Dashboard = () => {
           <path d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" strokeWidth="2"/>
         </svg>
       ),
-      color: '#10b981'
+      color: '#00ba31'
     },
     {
       name: 'Partial Match Status',
@@ -159,7 +159,7 @@ const Dashboard = () => {
       name: 'Alexandra Deff',
       task: 'Make food',
       status: 'Shift 1',
-      statusColor: '#10b981',
+      statusColor: '#00ba31',
       avatar: (
         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -284,7 +284,7 @@ const Dashboard = () => {
               </div>
               <div className="progress-legend">
                 <div className="legend-item">
-                  <div className="legend__dot" style={{ backgroundColor: '#10b981' }}></div>
+                  <div className="legend__dot" style={{ backgroundColor: '#00ba31' }}></div>
                   <span>Completed</span>
                 </div>
                 <div className="legend-item">
@@ -362,7 +362,7 @@ const Dashboard = () => {
               </div>
               <div className="progress-legend">
                 <div className="legend-item">
-                  <div className="legend__dot" style={{ backgroundColor: '#10b981' }}></div>
+                  <div className="legend__dot" style={{ backgroundColor: '#00ba31' }}></div>
                   <span>Completed</span>
                 </div>
                 <div className="legend-item">

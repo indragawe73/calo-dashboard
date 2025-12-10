@@ -50,8 +50,8 @@
 
     &:focus {
       outline: none;
-      border-color: #10b981;
-      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+      border-color: #00ba31;
+      box-shadow: 0 0 0 3px rgba(0, 186, 49, 0.1);
     }
 
     &:disabled {
@@ -118,11 +118,11 @@
     }
 
     &--selected {
-      background-color: #10b981;
+      background-color: #00ba31;
       color: white;
 
       &:hover {
-        background-color: #059669;
+        background-color: #008020;
       }
     }
   }

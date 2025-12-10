@@ -1,16 +1,16 @@
 // Color Palette - Based on Axiforma Design System
 :root {
-  // Primary Colors - Green Theme
-  --color-primary: #00B75A;          // Caribbean Green
-  --color-primary-light: #4FC65F;    // Mountain Meadow  
-  --color-primary-dark: #008B3C;     // Bangladesh Green
-  --color-primary-50: #E8F8F0;       // Very Light Green
-  --color-primary-100: #D1F2E1;      // Light Green Background
-  --color-primary-200: #A3E5C3;      // Light Green
-  --color-primary-500: #00B75A;      // Caribbean Green
-  --color-primary-600: #008B3C;      // Bangladesh Green
-  --color-primary-700: #006B2F;      // Dark Green
-  --color-primary-900: #003617;      // Very Dark Green
+  // Primary Colors - Green Theme (#00ba31)
+  --color-primary: #00ba31;          // Primary Green
+  --color-primary-light: #00e640;    // Light Green  
+  --color-primary-dark: #008020;     // Dark Green
+  --color-primary-50: #e6f7eb;       // Very Light Green
+  --color-primary-100: #ccf0d6;      // Light Green Background
+  --color-primary-200: #b3e9c1;      // Light Green
+  --color-primary-500: #00ba31;      // Primary Green
+  --color-primary-600: #008020;      // Dark Green
+  --color-primary-700: #006b1a;      // Darker Green
+  --color-primary-900: #003d0f;      // Very Dark Green
 
   // Secondary Colors - Green Variants
   --color-secondary: #2F5233;        // Pine
@@ -23,9 +23,9 @@
   --color-accent-dark: #5A8A9F;      // Dark Mint
 
   // Success Colors
-  --color-success: #00B75A;          // Caribbean Green
-  --color-success-light: #4FC65F;    // Mountain Meadow
-  --color-success-dark: #008B3C;     // Bangladesh Green
+  --color-success: #00ba31;          // Primary Green
+  --color-success-light: #00e640;    // Light Green
+  --color-success-dark: #008020;     // Dark Green
 
   // Warning Colors
   --color-warning: #f59e0b;
@@ -44,10 +44,10 @@
 
   // Neutral Colors
   --color-rich-black: #000B01;       // Rich Black
-  --color-dark-green: #032301;       // Dark Green
-  --color-bangladesh-green: #008B3C;  // Bangladesh Green
-  --color-mountain-meadow: #4FC65F;   // Mountain Meadow
-  --color-caribbean-green: #00B75A;   // Caribbean Green
+  --color-dark-green: #003d0f;       // Very Dark Green
+  --color-bangladesh-green: #008020;  // Dark Green
+  --color-mountain-meadow: #00e640;   // Light Green
+  --color-caribbean-green: #00ba31;   // Primary Green
   --color-anti-flash-white: #f7f7f7;  // Anti-Flash White
   // --color-anti-flash-white: #F1F2F0;  // Anti-Flash White
   --color-stone: #70707D;            // Stone
@@ -64,7 +64,7 @@
   // Background Colors
   --color-background: var(--color-anti-flash-white);  // Anti-Flash White
   --color-background-secondary: #ffffff;              // Pure White for cards
-  --color-background-tertiary: #E8F8F0;              // Very Light Green
+  --color-background-tertiary: #e6f7eb;              // Very Light Green
   --color-background-card: #ffffff;
   --color-background-overlay: rgba(0, 11, 1, 0.5);   // Rich Black overlay
 
@@ -76,8 +76,8 @@
   --color-text-inverse: var(--color-anti-flash-white);
 
   // Border Colors
-  --color-border: #D1F2E1;                          // Light Green Border
-  --color-border-light: #E8F8F0;                    // Very Light Green
+  --color-border: #ccf0d6;                          // Light Green Border
+  --color-border-light: #e6f7eb;                    // Very Light Green
   --color-border-dark: var(--color-pistachio);      // Pistachio
 
   // Shadow Colors
@@ -87,12 +87,12 @@
 
   // Input Colors
   --color-input-background: #ffffff;
-  --color-input-border: #A3E5C3;                    // Light Green
-  --color-input-focus: var(--color-primary);        // Caribbean Green
+  --color-input-border: #b3e9c1;                    // Light Green
+  --color-input-focus: var(--color-primary);        // Primary Green
   --color-input-placeholder: var(--color-stone);    // Stone
 
   // Sidebar Colors
-  --color-sidebar-background: #01A863;              // Custom green background
+  --color-sidebar-background: #00ba31;              // Primary green background
   --color-sidebar-item-hover: rgba(255, 255, 255, 0.1); // Light hover
   --color-sidebar-item-active: rgba(255, 255, 255, 0.2); // Light active
   --color-sidebar-text: rgba(255, 255, 255, 0.9);   // Light text
@@ -106,11 +106,11 @@
 // Dark Theme - Custom Dark Colors
 [data-theme="dark"] {
   // Override Primary Colors for Dark Theme
-  --color-primary: #02A763;                          // Dark theme primary color
-  --color-primary-light: #03C975;                    // Lighter variant
-  --color-primary-dark: #018A51;                     // Darker variant
-  --color-primary-50: rgba(2, 167, 99, 0.1);         // Very light background
-  --color-primary-100: rgba(2, 167, 99, 0.2);        // Light background
+  --color-primary: #00ba31;                          // Dark theme primary color
+  --color-primary-light: #00e640;                    // Lighter variant
+  --color-primary-dark: #008020;                     // Darker variant
+  --color-primary-50: rgba(0, 186, 49, 0.1);         // Very light background
+  --color-primary-100: rgba(0, 186, 49, 0.2);        // Light background
 
   // Background Colors
   --color-background: #263940;                       // Main dark background
@@ -121,7 +121,7 @@
 
   // Text Colors
   --color-text-primary: var(--color-anti-flash-white); // Anti-Flash White
-  --color-text-secondary: #02A763;                   // Active/secondary color
+  --color-text-secondary: #00ba31;                   // Active/secondary color
   --color-text-tertiary: #A0B4C0;                    // Muted text
   --color-text-muted: #7A8A94;                       // Very muted text
   --color-text-inverse: #263940;                     // Dark background for inverse
@@ -139,15 +139,15 @@
   // Input Colors
   --color-input-background: #384A54;                 // Input background
   --color-input-border: #4A5C68;                     // Input border
-  --color-input-focus: #02A763;                      // Input focus color
+  --color-input-focus: #00ba31;                      // Input focus color
   --color-input-placeholder: #7A8A94;                // Placeholder text
 
   // Sidebar Colors
   --color-sidebar-background: #384A54;               // Sidebar background
   --color-sidebar-item-hover: #4A5C68;               // Sidebar hover
-  --color-sidebar-item-active: rgba(2, 167, 99, 0.2); // Active item background
+  --color-sidebar-item-active: rgba(0, 186, 49, 0.2); // Active item background
   --color-sidebar-text: #A0B4C0;                     // Sidebar text
-  --color-sidebar-text-active: #02A763;              // Active sidebar text
+  --color-sidebar-text-active: #00ba31;              // Active sidebar text
 
   // Header Colors
   --color-header-background: #384A54;                // Header background

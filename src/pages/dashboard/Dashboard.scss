@@ -96,7 +96,7 @@
         width: 32px;
         height: 32px;
         border-radius: 50%;
-        background-color: #10b981;
+        background-color: #00ba31;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -259,7 +259,7 @@
     &.time-tracker {
       grid-column: 1;
       grid-row: 2;
-      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      background: linear-gradient(135deg, #00ba31 0%, #008020 100%);
       color: white;
       border: none;
       min-height: 200px;
@@ -306,7 +306,7 @@
   }
 
   &--primary {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    background: linear-gradient(135deg, #00ba31 0%, #008020 100%);
     color: white;
     border: none;
 
@@ -368,8 +368,8 @@
   border-radius: 6px;
 
   &--up {
-    color: #10b981;
-    background-color: rgba(16, 185, 129, 0.1);
+    color: #00ba31;
+    background-color: rgba(0, 186, 49, 0.1);
   }
 
   &--neutral {
@@ -389,11 +389,11 @@
   font-size: 0.875rem;
 
   &--primary {
-    background-color: #10b981;
+    background-color: #00ba31;
     color: white;
 
   &:hover {
-      background-color: #059669;
+      background-color: #008020;
       transform: translateY(-1px);
     }
   }
@@ -410,11 +410,11 @@
   }
 
   &--success {
-    background-color: #10b981;
+    background-color: #00ba31;
     color: white;
 
     &:hover {
-      background-color: #059669;
+      background-color: #008020;
     }
   }
 
@@ -550,7 +550,7 @@
   height: 200px;
   border-radius: 50%;
   background: conic-gradient(
-    #10b981 0deg 147.6deg,
+    #00ba31 0deg 147.6deg,
     #6b7280 147.6deg 270deg,
     #e5e7eb 270deg 360deg
   );

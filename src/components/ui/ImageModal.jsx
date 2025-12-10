@@ -182,7 +182,7 @@ const ImageModal = ({ image, isOpen, onClose }) => {
                       top: `${annotation.y}%`,
                       width: `${annotation.width}%`,
                       height: `${annotation.height}%`,
-                      borderColor: annotation.color || '#10b981'
+                      borderColor: annotation.color || '#00ba31'
                     }}
                   />
                 ))}
@@ -316,7 +316,7 @@ const ImageModal = ({ image, isOpen, onClose }) => {
                     <div key={idx} className="image-modal__annotation-item">
                       <div 
                         className="image-modal__annotation-color"
-                        style={{ backgroundColor: annotation.color || '#10b981' }}
+                        style={{ backgroundColor: annotation.color || '#00ba31' }}
                       />
                       <div className="image-modal__annotation-details">
                         <span>Position: {annotation.x.toFixed(1)}%, {annotation.y.toFixed(1)}%</span>
