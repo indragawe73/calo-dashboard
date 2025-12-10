@@ -26,7 +26,8 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/dashboard/image-list', { replace: true });
+      navigate('/dashboard', { replace: true });
+      // navigate('/dashboard/image-list', { replace: true });
     }
   }, [isAuthenticated, navigate]);
 

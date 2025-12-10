@@ -70,12 +70,12 @@ const Sidebar = () => {
   // Menu structure with icons and nested items
   const getMenuItems = () => {
     const baseItems = [
-      // {
-      //   id: 'dashboard',
-      //   label: t('navigation.dashboard'),
-      //   icon: <Home size={20} />,
-      //   path: '/dashboard',
-      // },
+      {
+        id: 'dashboard',
+        label: t('navigation.dashboard'),
+        icon: <Home size={20} />,
+        path: '/dashboard',
+      },
       // {
       //   id: 'form-report',
       //   label: t('navigation.formReport'),

@@ -40,7 +40,8 @@ const AdminRoute = ({ children }) => {
 const PublicRoute = ({ children }) => {
   const isAuthenticated = useSelector(selectIsAuthenticated);
   
-  return isAuthenticated ? <Navigate to="/dashboard/image-list" replace /> : children;
+  return isAuthenticated ? <Navigate to="/dashboard" replace /> : children;
+  // return isAuthenticated ? <Navigate to="/dashboard/image-list" replace /> : children;
 };
 
 function App() {
