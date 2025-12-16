@@ -82,7 +82,7 @@ export const reportsService = {
       // Get today's date in YYYY-MM-DD format if date is not provided
       const getTodayDate = () => {
         const today = new Date();
-        return today.toISOString().split('T')[0];
+        return today.toISOString().split("T")[0];
       };
 
       // Always include date parameter (required by API)
@@ -166,7 +166,7 @@ export const reportsService = {
       if (params.date) {
         queryParams.date = params.date;
       }
-      
+
       const endpoint = `/reports/images/${id}/annotated`;
       const response = await apiClient.get(endpoint, queryParams);
       return {
@@ -200,25 +200,25 @@ export const reportsService = {
 
   // Get raw image URL (for direct image src)
   getRawImageUrl(id) {
-    const baseUrl = "http://100.107.61.112:5270/api";
+    const baseUrl = "http://100.107.61.112:5271/api";
     return `${baseUrl}/reports/images/${id}/raw`;
   },
 
   // Get annotated image URL (for direct image src)
   getAnnotatedImageUrl(id, params = {}) {
-    const baseUrl = "http://100.107.61.112:5270/api";
+    const baseUrl = "http://100.107.61.112:5271/api";
     let url = `${baseUrl}/reports/images/${id}/annotated`;
-    
+
     // Add query parameters if provided
     const queryParams = [];
     if (params.date) {
       queryParams.push(`date=${encodeURIComponent(params.date)}`);
     }
-    
+
     if (queryParams.length > 0) {
-      url += `?${queryParams.join('&')}`;
+      url += `?${queryParams.join("&")}`;
     }
-    
+
     return url;
   },
 };

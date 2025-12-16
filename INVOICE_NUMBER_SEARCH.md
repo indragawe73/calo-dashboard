@@ -62,7 +62,7 @@ console.log("  - Invoice Number (API):", searchQuery || "None");
 **Endpoint:**
 
 ```
-GET http://100.107.61.112:5270/api/reports/images
+GET http://100.107.61.112:5271/api/reports/images
 ```
 
 **Query Parameters:**
@@ -82,7 +82,7 @@ GET http://100.107.61.112:5270/api/reports/images
 **Full URL:**
 
 ```
-http://100.107.61.112:5270/api/reports/images?page=1&pageSize=20&total=20&includeDetails=true&invoiceNumber=INV-12345&date=2025-01-15&timeOfDay=Morning
+http://100.107.61.112:5271/api/reports/images?page=1&pageSize=20&total=20&includeDetails=true&invoiceNumber=INV-12345&date=2025-01-15&timeOfDay=Morning
 ```
 
 ## 🎯 Benefits

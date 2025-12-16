@@ -355,7 +355,7 @@ listen 7864;  # Nginx must listen on 7864 directly
 ```
 ✅ Frontend: http://localhost:7864
 ✅ Health: http://localhost:7864/health
-✅ API Backend: http://100.107.61.112:5270
+✅ API Backend: http://100.107.61.112:5271
 ```
 
 ## 🧪 Final Test

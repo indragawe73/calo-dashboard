@@ -9,7 +9,7 @@ const ApiStatus = () => {
     const checkApiStatus = async () => {
       try {
         // Always use direct connection
-        const currentUrl = "http://100.107.61.112:5270/api";
+        const currentUrl = "http://100.107.61.112:5271/api";
         setApiUrl(currentUrl);
 
         // Try to make a simple request (this will fail but we can check the error type)
