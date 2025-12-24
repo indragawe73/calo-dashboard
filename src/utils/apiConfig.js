@@ -5,14 +5,13 @@
  */
 export const getApiBaseUrl = (port = 5271) => {
   const hostname = window.location.hostname;
-  const currentPort = window.location.port;
   
-  // Check if accessed from 192.168.1.99:7864
-  if (hostname === '192.168.1.99' || currentPort === '7864') {
+  // Only if accessed from 192.168.1.99 (any port) -> use 192.168.1.99:5271
+  if (hostname === '192.168.1.99') {
     return `http://192.168.1.99:${port}/api`;
   }
   
-  // Default to 100.107.61.112
+  // Otherwise (including 100.107.61.112:7864) -> use 100.107.61.112:5271
   return `http://100.107.61.112:${port}/api`;
 };
 
