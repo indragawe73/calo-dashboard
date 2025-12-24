@@ -1,4 +1,5 @@
 import { apiClient } from "./apiClient";
+import { getApiBaseUrl } from "../utils/apiConfig";
 
 // Authentication Service
 export const authService = {
@@ -200,13 +201,13 @@ export const reportsService = {
 
   // Get raw image URL (for direct image src)
   getRawImageUrl(id) {
-    const baseUrl = "http://100.107.61.112:5271/api";
+    const baseUrl = getApiBaseUrl(5271);
     return `${baseUrl}/reports/images/${id}/raw`;
   },
 
   // Get annotated image URL (for direct image src)
   getAnnotatedImageUrl(id, params = {}) {
-    const baseUrl = "http://100.107.61.112:5271/api";
+    const baseUrl = getApiBaseUrl(5271);
     let url = `${baseUrl}/reports/images/${id}/annotated`;
 
     // Add query parameters if provided
@@ -248,7 +249,7 @@ export const jobSchedulesService = {
   async getFlowRuns({ limit = 100, offset = 0 } = {}) {
     try {
       // This endpoint uses a different base URL
-      const API_BASE_URL = "http://100.107.61.112:4201/api";
+      const API_BASE_URL = getApiBaseUrl(4201);
       const url = `${API_BASE_URL}/flow-runs?limit=${limit}&offset=${offset}`;
 
       console.log("Fetching flow runs:", { limit, offset, url });
@@ -297,7 +298,7 @@ export const jobSchedulesService = {
   // Get flow run logs by flow_run_id
   async getFlowRunLogs(flowRunId) {
     try {
-      const API_BASE_URL = "http://100.107.61.112:4201/api";
+      const API_BASE_URL = getApiBaseUrl(4201);
       const url = `${API_BASE_URL}/flow-runs/${flowRunId}/logs`;
 
       console.log("Fetching flow run logs:", { flowRunId, url });
@@ -346,7 +347,7 @@ export const jobSchedulesService = {
   // Retry flow run by flow_run_id
   async retryFlowRun(flowRunId) {
     try {
-      const API_BASE_URL = "http://100.107.61.112:4201/api";
+      const API_BASE_URL = getApiBaseUrl(4201);
       const url = `${API_BASE_URL}/flow-runs/${flowRunId}/retry`;
 
       console.log("Retrying flow run:", { flowRunId, url });

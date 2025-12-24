@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { authService } from "../../services/api";
+import { getApiBaseUrl } from "../../utils/apiConfig";
 
 const ApiStatus = () => {
   const [status, setStatus] = useState("checking");
@@ -8,8 +9,8 @@ const ApiStatus = () => {
   useEffect(() => {
     const checkApiStatus = async () => {
       try {
-        // Always use direct connection
-        const currentUrl = "http://100.107.61.112:5271/api";
+        // Get API base URL based on current domain
+        const currentUrl = getApiBaseUrl(5271);
         setApiUrl(currentUrl);
 
         // Try to make a simple request (this will fail but we can check the error type)

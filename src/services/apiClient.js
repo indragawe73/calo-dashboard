@@ -1,9 +1,10 @@
 import { handleUnauthorized } from "../utils/authHandler";
 import toast from "../utils/toast";
+import { getApiBaseUrl } from "../utils/apiConfig";
 
 // API Configuration
 // Try with CORS proxy if direct connection fails
-const API_BASE_URL = "http://100.107.61.112:5271/api";
+const API_BASE_URL = getApiBaseUrl(5271);
 const CORS_PROXY = "https://cors-anywhere.herokuapp.com/";
 
 console.log("API Base URL:", API_BASE_URL);
