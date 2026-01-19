@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 // import { useTranslation } from 'react-i18next';
 import { setPageTitle, setBreadcrumbs } from '../../store/slices/uiSlice';
 import { reportsService } from '../../services/api';
@@ -9,11 +10,13 @@ import DatePicker from '../../components/ui/DatePicker';
 import ImageGrid from '../../components/ui/ImageGrid';
 import ImageModal from '../../components/ui/ImageModal';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
+import toast from '../../utils/toast';
 import './ImageListPage.scss';
 
 const ImageListPage = () => {
   // const { t } = useTranslation();
   const dispatch = useDispatch();
+  const location = useLocation();
   
   // Get today's date in YYYY-MM-DD format for the date input
   const getTodayDate = () => {
@@ -44,6 +47,10 @@ const ImageListPage = () => {
       _setError(null);
       
       try {
+        // Get station parameter from URL query string
+        const searchParams = new URLSearchParams(location.search);
+        const stationParam = searchParams.get('station');
+        
         // Build API parameters
         const apiParams = {
           page: currentPage,
@@ -52,6 +59,11 @@ const ImageListPage = () => {
           includeDetails: true,
           date: filterDate || getTodayDate(), // Always include date, default to today if empty
         };
+
+        // Add stationName parameter if station query param exists
+        if (stationParam && ['1', '2', '3'].includes(stationParam)) {
+          apiParams.stationName = `station_${stationParam}`;
+        }
 
         // Add API-supported filters
         
@@ -74,60 +86,92 @@ const ImageListPage = () => {
         const result = await reportsService.getImages(apiParams);
 
         if (result.success) {
-          // Transform API response - new structure: { total, page, page_size, data: [...] }
-          const transformedData = (result.data.data || []).map(item => ({
-            ...item,
-            // Always use API endpoint /api/reports/images/{id}/raw
-            // This ensures we use the correct endpoint as per Swagger documentation
-            url: reportsService.getRawImageUrl(item.id),
-            // Map field names to consistent format
-            filename: item.filename || `image_${item.id}`,
-            uuid_delivery_id: item.delivery_id || item.deliveryId || '-',
-            date: item.date || '', // Format: DD/MM/YYYY
-            time_period: item.time_period || 'Unknown',
-            detection_date_time: item.detection_date_time || item.detectionDateTime || null,
-            invoice_number: item.invoice_number || item.invoiceNumber || '',
-            invoice_url: item.invoice_url || item.invoiceUrl || '',
-            annotated_image_url: item.annotated_image_url || item.annotatedImageUrl || '',
-            raw_image_url: item.raw_image_url || item.rawImageUrl || '',
-            total_objects: item.total_objects || item.totalObjects || 0,
-            high_confidence_count: item.high_confidence_count || item.highConfidenceCount || 0,
-            skuItems: item.sku_items || item.skuItems || null,
-            class_detections: item.class_detections || item.classDetections || null,
-            annotations: item.annotations || null, // Keep for backward compatibility
-          }));
-          
-          // Get total records from API response
-          const total = result.data.total || transformedData.length;
-          
-          console.log('API Response - Transformed images:', transformedData);
-          console.log('API Response - Total records:', total);
-          
-          setAllImages(transformedData);
-          setFilteredImages(transformedData);
-          setTotalRecords(total);
+          try {
+            // Safely transform API response - new structure: { total, page, page_size, data: [...] }
+            const responseData = result.data || {};
+            const dataArray = responseData.data || [];
+            
+            const transformedData = dataArray.map((item, index) => {
+              try {
+                // Ensure item has required properties
+                if (!item || typeof item !== 'object') {
+                  console.warn(`Invalid item at index ${index}:`, item);
+                  return null;
+                }
+                
+                return {
+                  ...item,
+                  // Always use API endpoint /api/reports/images/{id}/raw
+                  // This ensures we use the correct endpoint as per Swagger documentation
+                  url: item.id ? reportsService.getRawImageUrl(item.id) : '',
+                  // Map field names to consistent format with safe fallbacks
+                  filename: item.filename || `image_${item.id || index}`,
+                  uuid_delivery_id: item.delivery_id || item.deliveryId || '-',
+                  date: item.date || '', // Format: DD/MM/YYYY
+                  time_period: item.time_period || 'Unknown',
+                  detection_date_time: item.detection_date_time || item.detectionDateTime || null,
+                  invoice_number: item.invoice_number || item.invoiceNumber || '',
+                  invoice_url: item.invoice_url || item.invoiceUrl || '',
+                  annotated_image_url: item.annotated_image_url || item.annotatedImageUrl || '',
+                  raw_image_url: item.raw_image_url || item.rawImageUrl || '',
+                  total_objects: item.total_objects || item.totalObjects || 0,
+                  high_confidence_count: item.high_confidence_count || item.highConfidenceCount || 0,
+                  skuItems: item.sku_items || item.skuItems || null,
+                  class_detections: item.class_detections || item.classDetections || null,
+                  annotations: item.annotations || null, // Keep for backward compatibility
+                };
+              } catch (itemError) {
+                console.error(`Error transforming item at index ${index}:`, itemError);
+                return null;
+              }
+            }).filter(item => item !== null); // Remove null items
+            
+            // Get total records from API response
+            const total = responseData.total || transformedData.length;
+            
+            console.log('API Response - Transformed images:', transformedData);
+            console.log('API Response - Total records:', total);
+            
+            setAllImages(transformedData);
+            setFilteredImages(transformedData);
+            setTotalRecords(total);
+            _setError(null); // Clear any previous errors
+          } catch (transformError) {
+            // Error transforming data
+            console.error('Error transforming API response:', transformError);
+            const errorMsg = 'Failed to process image data. Please try again.';
+            toast.error(errorMsg);
+            setAllImages([]);
+            setFilteredImages([]);
+            setTotalRecords(0);
+            _setError(errorMsg);
+          }
         } else {
-          // API failed - show empty state
+          // API failed - show error toast and empty state
           console.error('API failed:', result.error);
+          const errorMessage = result.error || 'Failed to load images. Please try again.';
+          toast.error(errorMessage);
           setAllImages([]);
           setFilteredImages([]);
           setTotalRecords(0);
-          _setError(result.error);
+          _setError(errorMessage);
         }
       } catch (err) {
-        // Error occurred - show empty state
-        console.error('API error:', err);
+        // Unexpected error occurred - show error toast and empty state
+        console.error('Unexpected API error:', err);
+        const errorMessage = err?.message || 'An unexpected error occurred. Please try again.';
+        toast.error(errorMessage);
         setAllImages([]);
         setFilteredImages([]);
         setTotalRecords(0);
-        _setError(err.message || 'Failed to load images');
+        _setError(errorMessage);
       } finally {
         _setLoading(false);
       }
     };
 
     loadImages();
-  }, [currentPage, imagesPerPage, filterDate, filterTimePeriod, searchQuery, searchDeliveryId]);
+  }, [currentPage, imagesPerPage, filterDate, filterTimePeriod, searchQuery, searchDeliveryId, location.search]);
 
   useEffect(() => {
     dispatch(setPageTitle('Image List'));

@@ -223,10 +223,10 @@ const ImageModal = ({ image, isOpen, onClose }) => {
                   <div>
                     <label>Date & Time</label>
                     <div className="image-modal__time-badge-2-container">
-                      <span className={`image-modal__time-badge ${(image.time_period || '').toLowerCase()}`}>
+                      <span className={`image-modal__time-badge ${(image.timePeriod || '').toLowerCase()}`}>
                         {formatToLocalDate(image.detection_date_time || image.detectionDateTime)} 
                       </span>
-                      <span className={`image-modal__time-badge-2 ${(image.time_period || '').toLowerCase()}`}>
+                      <span className={`image-modal__time-badge-2 ${(image.timePeriod || '').toLowerCase()}`}>
                         {formatToLocalTime(image.detection_date_time || image.detectionDateTime)}
                       </span>
                     </div>
@@ -237,8 +237,8 @@ const ImageModal = ({ image, isOpen, onClose }) => {
                   <Clock size={16} />
                   <div>
                     <label>Delivery Slot</label>
-                    <span className={`image-modal__time-badge ${(image.time_period || '').toLowerCase()}`}>
-                      {image.time_period || 'Unknown'}
+                    <span className={`image-modal__time-badge ${(image.timePeriod || '').toLowerCase()}`}>
+                      {image.timePeriod || 'Unknown'}
                     </span>
                   </div>
                 </div>
@@ -276,11 +276,11 @@ const ImageModal = ({ image, isOpen, onClose }) => {
                   </div>
                 )}
                 
-                {/* Show SKU Items if available - Filter only OcrVsFoodLabel source */}
+                {/* Show SKU Items if available - Show all SKU items from API */}
                 {(() => {
-                  const filteredSkuItems = image.skuItems && Array.isArray(image.skuItems) 
-                    ? image.skuItems.filter(sku => sku.source === 'OcrVsFoodLabel')
-                    : [];
+                  // Get skuItems from image - check both camelCase and snake_case
+                  const skuItems = image.skuItems || image.sku_items || [];
+                  const filteredSkuItems = Array.isArray(skuItems) ? skuItems : [];
                   
                   return filteredSkuItems.length > 0 && (
                     <div className="image-modal__detail-item image-modal__detail-item--full">
@@ -290,7 +290,7 @@ const ImageModal = ({ image, isOpen, onClose }) => {
                           {filteredSkuItems.map((sku, index) => (
                             <div key={index} className="image-modal__sku-item">
                               <div className="image-modal__sku-header">
-                                <span className="image-modal__sku-name">{sku.itemName || sku.name || 'Unknown'}</span>
+                                <span className="image-modal__sku-name">{sku.itemName || sku.item_name || sku.name || 'Unknown'}</span>
                                 <span className={`image-modal__sku-status image-modal__sku-status--${(sku.status || '').toLowerCase()}`}>
                                   {sku.status || 'N/A'}
                                 </span>

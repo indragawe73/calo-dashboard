@@ -127,14 +127,14 @@ const ImageGrid = ({ images, onImageClick }) => {
                   {image.date || ''}
                 </span>
                 <div>
-                  <span className={`image-grid__time ${(image.time_period || '').toLowerCase()}`}>
+                  <span className={`image-grid__time ${(image.timePeriod || '').toLowerCase()}`}>
                     {formatToLocalDate(image.detection_date_time || image.detectionDateTime)} 
                   </span>
-                  <span className={`image-grid__time ${(image.time_period || '').toLowerCase()}`}>
+                  <span className={`image-grid__time ${(image.timePeriod || '').toLowerCase()}`}>
                     {formatToLocalTime(image.detection_date_time || image.detectionDateTime)} 
                   </span>
-                  <span className={`image-grid__time ${(image.time_period || '').toLowerCase()}`}>
-                    {image.time_period || 'Unknown'}
+                  <span className={`image-grid__time ${(image.timePeriod || '').toLowerCase()}`}>
+                    {image.timePeriod || 'Unknown'}
                   </span>
                 </div>
               </div>
